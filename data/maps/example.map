@@ -1,0 +1,16 @@
+
+start
+location 0,0
+ldesc "You stand in a forest full of trees.
+There is a rather nasty smell about."
+sdesc "Forest of trees."
+end
+
+start
+location 0,1
+ldesc "You stand slightly above the forest of trees.
+Still a nasty smell."
+sdesc "Slightly above forest of trees."
+end
+
+stop
