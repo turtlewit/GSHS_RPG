@@ -12,6 +12,7 @@ Idea Checklist:
 * NPCs: medics, techs, etc.
 
 Roadmap:
+
 1. General story / end goal / gameplay written by concept and story.
 2. Basic engine written by engine programmers.
 3. Specific planets / objects / etc. written by concept and story.
