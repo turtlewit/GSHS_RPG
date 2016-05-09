@@ -1,0 +1,2 @@
+Maps are formatted like most of the other data files.
+

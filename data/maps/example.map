@@ -1,0 +1,13 @@
+WORLD: "Example"
+{
+	space_description="A gigantic lump of nothing too interesting."
+	landing_description="Descending onto the planet, you feel somewhat proud of your accurate observation of the planet."
+	location=0,0
+}
+
+TILE: "ExampleTile"
+{
+	parent="Example"
+	description="You stand facing a completely flat, pale orange landscape. There aren't even any cracks in the ground."
+	location=0,0
+}
