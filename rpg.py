@@ -2,82 +2,80 @@
 
 import os, sys
 
+from player import Player
+
 map_dir = os.path.join('data', 'maps')
 
 def load_map(map_file_name):
-	map_file_raw = open(os.path.join(map_dir, map_file_name))
-	map_file = map_file_raw.read()
-	map_file = map_file.split('\n')
-	value_type = 0
-	location = None
-	ldesc = None
-	sdesc = None
-	returnList = []
-	lineNumber = 0
+	map_file = open(os.path.join(map_dir, map_file_name))
+
+	possible_attributes = ['space_description', 'landing_description', 'location', 'parent', 'description']
+
+	possible_types = ['WORLD', 'TILE']
+
+	object_attributes = {}
+	inside_definition=0
+
+	returnstuff = []
+
 	for line in map_file:
 
-		split_line = line.split()
+		if inside_definition==1:
 
-		if len(split_line) > 0:
-
-			if value_type == 1:
-
-				if split_line[0] == 'location':
-					loc_value = list(split_line[1])
-					comma_pos = loc_value.index(',')
-					loc_value.remove(',')
-					loc_value.insert(comma_pos, ' ')
-					loc_value = ' '.join(loc_value)
-					loc_value = loc_value.split()
-					# new_value1 = ""
-					# new_value2 = ""
-					# for i in range(0, len(loc_value)):
-					# 	if i == comma_pos:
-					# 		new_value1 = int(new_value)
-					# 		new_value = ""
-					# 		i += 1
-					# 	new_value = "%s%s" % (new_value, loc_value[i])
-					# new_value2 = int(new_value)
-					location = (loc_value[0], loc_value[1])
-
-				if split_line[0] in ['ldesc', 'sdesc']:
-					descType = split_line.pop(0)
-					desc = split_line
-					last_word = desc[len(desc) - 1]
-					while list(last_word)[len(last_word) - 1] != "\"":
-						nextLine = map_file[lineNumber + 1]
-						desc.append('\n')
-						newLineDesc = nextLine.split()
-						for word in newLineDesc:
-							desc.append(word)
-						last_word = desc[len(desc) - 1]
-					desc = ' '.join(desc)
-
-					if descType == 'ldesc':
-						ldesc = desc
-
-					else:
-						sdesc = desc
-
-
-				if split_line[0] == 'end':
-					returnList.append(location)
-					returnList.append(ldesc)
-					returnList.append(sdesc)
-					location = None
-					ldesc = None
-					sdesc = None
-					value_type = 0
-
+			if '}' in list(line):
+				returnstuff.append(object_attributes)
+				object_attributes = {}
 			else:
 
-				if split_line[0] == 'start':
-					value_type = 1
+				line.split('=')
 
-				if split_line[0] == 'stop':
-					return returnList
-		lineNumber = lineNumber + 1
+				if line[0] in possible_attributes and len(line) == 2:
+					object_attributes[line[0]] = line[1]
 
 
+		else:
+			line = raw(line.split(':'))
+			print(line)
+			if line[0] in possible_types and len(line) == 2:
 
+				object_name = list(line[1])
+
+				while '\"' != object_name[0]:
+					try:
+						object_name.pop(0)
+					except:
+						print("Syntax error! Could not load world!")
+						break
+				object_attributes['type'] = (line[0])
+				object_attributes['name'] = (''.join(object_name))
+
+			if '{' in line:
+				inside_definition=1
+
+	return(returnstuff)
+
+
+def lineConvert(line):
+	line = line.split()
+	linelen = 0
+	word = line.pop(0)
+	wordsplit = list(word)
+	linelen += len(wordsplit) + 1
+	newLine = word
+	for x in range(0, len(line)):
+		word = line.pop(0)
+		wordsplit = list(word)
+		linelen += len(wordsplit) + 1
+		if linelen > 79:
+			newLine = "%s\n" % (newLine)
+			linelen = 0
+			newLine = "%s%s" % (newLine, word)
+			linelen += len(wordsplit) + 1
+		else:
+			newLine = "%s %s" % (newLine, word)
+	return newLine
+
+# Startup init
+
+player = Player()
 

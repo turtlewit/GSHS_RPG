@@ -1,16 +1,12 @@
+WORLD: "Example"
+{
+	space_description="A gigantic lump of nothing too interesting."
+	landing_description="Descending onto the planet, you feel somewhat proud of your accurate observation of the planet."
+	location=0,0
+}
 
-start
-location 0,0
-ldesc "You stand in a forest full of trees.
-There is a rather nasty smell about."
-sdesc "Forest of trees."
-end
-
-start
-location 0,1
-ldesc "You stand slightly above the forest of trees.
-Still a nasty smell."
-sdesc "Slightly above forest of trees."
-end
-
-stop
+TILE: "ExampleTile"
+{
+	parent="Example"
+	description="You stand facing a completely flat, pale orange landscape. There aren't even any cracks in the ground."
+}
