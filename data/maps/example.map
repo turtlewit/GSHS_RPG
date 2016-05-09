@@ -9,4 +9,5 @@ TILE: "ExampleTile"
 {
 	parent="Example"
 	description="You stand facing a completely flat, pale orange landscape. There aren't even any cracks in the ground."
+	location=0,0
 }

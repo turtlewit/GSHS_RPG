@@ -3,9 +3,11 @@
 import os, sys
 
 from player import Player
+import world
 
 map_dir = os.path.join('data', 'maps')
 
+#Dude, I couldn't even fully explain how this parses text, but it does, so whatever.
 def load_map(map_file_name):
 	map_file = open(os.path.join(map_dir, map_file_name))
 
@@ -25,34 +27,66 @@ def load_map(map_file_name):
 			if '}' in list(line):
 				returnstuff.append(object_attributes)
 				object_attributes = {}
+				inside_definition = 0
 			else:
-
-				line.split('=')
-
+				line = line.split('\t')
+				line = ''.join(line)
+				line = line.split('\n')
+				line = ''.join(line)
+				line = line.split('=')
+				try:
+					line2 = list(line[1])
+					for i in range(0, line2.count('\"')):
+						line2.remove('\"')
+					line2 = ''.join(line2)
+					line = [line[0], line2]
+				except:
+					pass
 				if line[0] in possible_attributes and len(line) == 2:
 					object_attributes[line[0]] = line[1]
 
 
 		else:
-			line = raw(line.split(':'))
-			print(line)
+			line = line.split()
+			line = ''.join(line)
+			line = line.split(':')
+			try:
+				line2 = list(line[1])
+				for i in range(0, line2.count('\"')):
+					line2.remove('\"')
+				line2 = ''.join(line2)
+				line = [line[0], line2]
+			except:
+				pass
 			if line[0] in possible_types and len(line) == 2:
 
 				object_name = list(line[1])
-
-				while '\"' != object_name[0]:
-					try:
-						object_name.pop(0)
-					except:
-						print("Syntax error! Could not load world!")
-						break
 				object_attributes['type'] = (line[0])
 				object_attributes['name'] = (''.join(object_name))
 
 			if '{' in line:
 				inside_definition=1
 
-	return(returnstuff)
+	for i in returnstuff:
+		world_or_tile = i['type']
+
+		if world_or_tile == 'WORLD':
+			name = i['name']
+			s_desc = i['space_description']
+			l_desc = i['landing_description']
+			location = i['location']
+
+			world.World(name,location,s_desc,l_desc)
+		if world_or_tile == 'TILE':
+			parent = i['parent']
+			desc = i['description']
+			location = i['location']
+
+			world.Tile(world.World.world_name_dictionary[parent], name, location, desc)
+
+
+
+
 
 
 def lineConvert(line):
@@ -79,3 +113,6 @@ def lineConvert(line):
 
 player = Player()
 
+load_map('example.map')
+
+print(world.World.world_list, world.World.world_list[0].tile_list)

@@ -1,17 +1,2 @@
 Maps are formatted like most of the other data files.
 
-For each new object, the first line is 'start'.
-Following that, you write the variable name, a space, then the value.
-For tile descriptions, surround the text with quotation marks ("").
-This will support new lines.
-To close an object definition, type 'end' on new line.
-
-Example:
-
-start
-location 0,0
-ldesc "You stand in a large forest full of trees.
-There is a rather nasty smell about"
-sdesc "Forest of trees."
-end
-
