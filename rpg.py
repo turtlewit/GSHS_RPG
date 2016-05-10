@@ -1,13 +1,21 @@
 """The main file of the GSHS_RPG game."""
 
-import os, sys
+import os, sys, platform
+import colorama
+colorama.init()
 
 from player import Player
 import world
 
+current_os 	= platform.system()
+
+if current_os == 'Windows':
+	import msvcrt as m
+
 map_dir = os.path.join('data', 'maps')
 
 #Dude, I couldn't even fully explain how this parses text, but it does, so whatever.
+#---------------------------------------------------------------------------------------------------------------#
 def load_map(map_file_name):
 	map_file = open(os.path.join(map_dir, map_file_name))
 
@@ -83,13 +91,11 @@ def load_map(map_file_name):
 			location = i['location']
 
 			world.Tile(world.World.world_name_dictionary[parent], name, location, desc)
-
-
-
-
+#---------------------------------------------------------------------------------------------------------------#
 
 
 def lineConvert(line):
+	global buffer_x
 	line = line.split()
 	linelen = 0
 	word = line.pop(0)
@@ -100,7 +106,7 @@ def lineConvert(line):
 		word = line.pop(0)
 		wordsplit = list(word)
 		linelen += len(wordsplit) + 1
-		if linelen > 79:
+		if linelen > buffer_x - 2:
 			newLine = "%s\n" % (newLine)
 			linelen = 0
 			newLine = "%s%s" % (newLine, word)
@@ -109,10 +115,56 @@ def lineConvert(line):
 			newLine = "%s %s" % (newLine, word)
 	return newLine
 
+
+def setup_screen(text, player):
+	if current_os == "Windows":
+		os.system('cls')
+	else:
+		os.system('printf "\\033c"')
+
+	global buffer_x
+	global buffer_y
+
+	print(colorama.Fore.BLACK + colorama.Back.WHITE + "[Health: 22, Position: (%d,%d)]" % (player.local_position[0], player.local_position[1]) + colorama.Style.RESET_ALL)
+
+	current_lines = 0
+	text_list = list(text)
+	text_split = text.split('\n')
+
+	if text_list.count('\n') >= buffer_y - 1:
+		for i in range(0, buffer_y - 3):
+			print(text_split[i])
+
+		print('Press any key to continue...')
+
+		if current_os == 'Windows':
+			m.getch()
+		else:
+			input()
+
+		for i in range(buffer_y - 2, len(text_split)):
+			print(text_split[i])
+	else:
+		print(text)
+
+	current_lines += len(text_split)
+
+	if current_lines < buffer_y - 2:
+		for i in range(0, (buffer_y - 2) - current_lines):
+			print('')
+
+
 # Startup init
+
+
+buffer_x	= 80
+buffer_y	= 25
+
 
 player = Player()
 
 load_map('example.map')
-
-print(world.World.world_list, world.World.world_list[0].tile_list)
+while True:
+	setup_screen(lineConvert(world.World.world_list[0].landing_description), player)
+	if input('>') == 'quit':
+		break
