@@ -6,6 +6,7 @@ colorama.init()
 
 from player import Player
 import world
+import command
 
 current_os 	= platform.system()
 
