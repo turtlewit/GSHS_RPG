@@ -31,6 +31,7 @@ def init():
 	]
 
 	for command in command_list:
+		print(len(command))
 		if len(command) == 2:
 			Command(command[0], command[1])
 		else:
@@ -68,7 +69,6 @@ def get_input(conditions):
 					extra.append(not_lower)
 
 	extra = ' '.join(extra)
-	print (commands, extra)
+	print(commands)
+	return commands
 
-init()
-get_input(None)

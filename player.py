@@ -24,7 +24,7 @@ class Player:
 		elif direction == 3:
 			x_dir = -tiles
 
-		x,y = self.global_position
+		x,y = self.local_position
 		x += x_dir
 		y += y_dir
-		self.global_position = (x,y)
+		self.local_position = (x,y)

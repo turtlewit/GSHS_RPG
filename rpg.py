@@ -157,6 +157,7 @@ def setup_screen(text, player):
 
 # Startup init
 
+command.init()
 
 buffer_x	= 80
 buffer_y	= 25
@@ -167,5 +168,12 @@ player = Player()
 load_map('example.map')
 while True:
 	setup_screen(lineConvert(world.World.world_list[0].landing_description), player)
-	if input('>') == 'quit':
-		break
+	stuff = command.get_input(None)
+	if stuff[1].flag == 'MOVE_NORTH':
+		player.move(0, 1)
+	elif stuff[1].flag == 'MOVE_SOUTH':
+		player.move(1, 1)
+	elif stuff[1].flag == 'MOVE_EAST':
+		player.move(2, 1)
+	elif stuff[1].flag == 'MOVE_WEST':
+		player.move(3, 1)
