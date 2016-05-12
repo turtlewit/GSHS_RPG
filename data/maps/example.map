@@ -5,7 +5,7 @@ WORLD: "Example"
 	location=0,0
 }
 
-TILE: "ExampleTile"
+TILE: "Pale Orange Landscape"
 {
 	parent="Example"
 	description="You stand facing a completely flat, pale orange landscape. There aren't even any cracks in the ground."

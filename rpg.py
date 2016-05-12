@@ -57,7 +57,7 @@ def load_map(map_file_name):
 
 		else:
 			line = line.split()
-			line = ''.join(line)
+			line = ' '.join(line)
 			line = line.split(':')
 			try:
 				line2 = list(line[1])
@@ -68,8 +68,10 @@ def load_map(map_file_name):
 			except:
 				pass
 			if line[0] in possible_types and len(line) == 2:
-
-				object_name = list(line[1])
+				object_name = line[1].split()
+				print(object_name)
+				object_name = ' '.join(object_name)
+				object_name = list(object_name)
 				object_attributes['type'] = (line[0])
 				object_attributes['name'] = (''.join(object_name))
 
@@ -83,13 +85,14 @@ def load_map(map_file_name):
 			name = i['name']
 			s_desc = i['space_description']
 			l_desc = i['landing_description']
-			location = i['location']
-
+			location = (int(i['location'][0]),int(i['location'][2]))
+			print(name)
 			world.World(name,location,s_desc,l_desc)
 		if world_or_tile == 'TILE':
+			name = i['name']
 			parent = i['parent']
 			desc = i['description']
-			location = i['location']
+			location = (int(i['location'][0]),int(i['location'][2]))
 
 			world.Tile(world.World.world_name_dictionary[parent], name, location, desc)
 #---------------------------------------------------------------------------------------------------------------#
@@ -117,7 +120,7 @@ def lineConvert(line):
 	return newLine
 
 
-def setup_screen(textl, player):
+def setup_screen(textl, player, current_world, current_tile):
 	if current_os == "Windows":
 		os.system('cls')
 	else:
@@ -126,7 +129,7 @@ def setup_screen(textl, player):
 	global buffer_x
 	global buffer_y
 
-	print(colorama.Fore.BLACK + colorama.Back.WHITE + "[Health: 22, Position: (%d,%d)]" % (player.local_position[0], player.local_position[1]) + colorama.Style.RESET_ALL)
+	print(colorama.Fore.BLACK + colorama.Back.WHITE + "[Health: %d, Position: (%d,%d): \"%s\" on \"%s\"]" % (player.health, player.local_position[0], player.local_position[1], current_tile.name, current_world.name) + colorama.Style.RESET_ALL)
 
 	current_lines = 0
 	for text in textl:
@@ -156,6 +159,8 @@ def setup_screen(textl, player):
 			print('')
 
 
+
+
 # Startup init
 
 command.init()
@@ -168,10 +173,14 @@ print_list = []
 player = Player()
 
 load_map('example.map')
-while True:
-	print_list.append(lineConvert(world.World.world_list[0].landing_description))
 
-	setup_screen(print_list, player)
+print('World position', world.World.world_list[0].location)
+while True:
+	current_world = world.find_world(player.global_position)
+	current_tile = world.find_tile(player.local_position, current_world)
+	print_list.append(lineConvert(current_tile.description))
+
+	setup_screen(print_list, player, current_world, current_tile)
 	print_list = []
 
 	flags = command.get_input(None)

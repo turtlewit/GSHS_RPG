@@ -34,3 +34,9 @@ class World:
 		self.world_name_dictionary[self.name] = self
 		self.world_dictionary[location] = self
 		self.world_list.append(self)
+
+def find_world(loc):
+	return World.world_dictionary[loc]
+
+def find_tile(loc, world):
+	return world.tile_dictionary[loc]
