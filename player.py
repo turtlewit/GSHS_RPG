@@ -9,7 +9,9 @@ class Player:
 	def __init__(self):
 
 		self.local_position = (0,0)
-		self.global_position = 0
+		self.global_position = (0,0)
+
+		self.health = 25
 
 	def move(self, direction, tiles):
 		#Direction 0-3
@@ -24,7 +26,7 @@ class Player:
 		elif direction == 3:
 			x_dir = -tiles
 
-		x,y = self.global_position
+		x,y = self.local_position
 		x += x_dir
 		y += y_dir
-		self.global_position = (x,y)
+		self.local_position = (x,y)
