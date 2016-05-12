@@ -117,7 +117,7 @@ def lineConvert(line):
 	return newLine
 
 
-def setup_screen(text, player):
+def setup_screen(textl, player):
 	if current_os == "Windows":
 		os.system('cls')
 	else:
@@ -129,26 +129,27 @@ def setup_screen(text, player):
 	print(colorama.Fore.BLACK + colorama.Back.WHITE + "[Health: 22, Position: (%d,%d)]" % (player.local_position[0], player.local_position[1]) + colorama.Style.RESET_ALL)
 
 	current_lines = 0
-	text_list = list(text)
-	text_split = text.split('\n')
+	for text in textl:
+		text_list = list(text)
+		text_split = text.split('\n')
 
-	if text_list.count('\n') >= buffer_y - 1:
-		for i in range(0, buffer_y - 3):
-			print(text_split[i])
+		if text_list.count('\n') >= buffer_y - 1:
+			for i in range(0, buffer_y - 3):
+				print(text_split[i])
 
-		print('Press any key to continue...')
+			print('Press any key to continue...')
 
-		if current_os == 'Windows':
-			m.getch()
+			if current_os == 'Windows':
+				m.getch()
+			else:
+				input()
+
+			for i in range(buffer_y - 2, len(text_split)):
+				print(text_split[i])
 		else:
-			input()
-
-		for i in range(buffer_y - 2, len(text_split)):
-			print(text_split[i])
-	else:
-		print(text)
-
-	current_lines += len(text_split)
+			print(text)
+		current_lines += len(text_split) + 1
+		print('')
 
 	if current_lines < buffer_y - 2:
 		for i in range(0, (buffer_y - 2) - current_lines):
@@ -162,18 +163,34 @@ command.init()
 buffer_x	= 80
 buffer_y	= 25
 
+print_list = []
 
 player = Player()
 
 load_map('example.map')
 while True:
-	setup_screen(lineConvert(world.World.world_list[0].landing_description), player)
-	stuff = command.get_input(None)
-	if stuff[1].flag == 'MOVE_NORTH':
-		player.move(0, 1)
-	elif stuff[1].flag == 'MOVE_SOUTH':
-		player.move(1, 1)
-	elif stuff[1].flag == 'MOVE_EAST':
-		player.move(2, 1)
-	elif stuff[1].flag == 'MOVE_WEST':
-		player.move(3, 1)
+	print_list.append(lineConvert(world.World.world_list[0].landing_description))
+
+	setup_screen(print_list, player)
+	print_list = []
+
+	flags = command.get_input(None)
+	for i, flag in enumerate(flags):
+		if flag.flag == 'MOVE_EMPTY':
+			try:
+				if flags[i + 1].flag == 'MOVE_NORTH':
+					player.move(0, 1)
+					print_list.append('You move north.')
+				elif flags[i + 1].flag == 'MOVE_SOUTH':
+					player.move(1, 1)
+					print_list.append('You move south.')
+				elif flags[i + 1].flag == 'MOVE_EAST':
+					player.move(2, 1)
+					print_list.append('You move east.')
+				elif flags[i + 1].flag == 'MOVE_WEST':
+					player.move(3, 1)
+					print_list.append('You move west.')
+				else:
+					print_list.append('Move where?')
+			except:
+				print_list.append('Move where?')
