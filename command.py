@@ -31,18 +31,15 @@ def init():
 	]
 
 	for command in command_list:
-		print(len(command))
 		if len(command) == 2:
 			Command(command[0], command[1])
 		else:
 			Command(command[0], command[1], command[2])
 
-	print (Command.command_dict)
 
 
 
-def get_input(conditions):
-	print_list = []
+def get_input():
 	flag_list = []
 	commands = []
 
@@ -56,7 +53,6 @@ def get_input(conditions):
 		not_lower = word
 		word = word.lower()
 		if word in Command.command_list:
-			print('yea')
 			if Command.name_dict[word].independant:
 				commands.append(Command.name_dict[word])
 			else:
@@ -69,6 +65,5 @@ def get_input(conditions):
 					extra.append(not_lower)
 
 	extra = ' '.join(extra)
-	print(commands)
 	return commands
 

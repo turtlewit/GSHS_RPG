@@ -2,7 +2,7 @@
 class Tile:
 	# tile_list_dictionary = {}		#Stores the index location of the list of tiles for each parent world.
 	# tile_list_list = []				#This is required, as each tile list needs to be attached to the parent. The class will look in the dictionary to see if the parent has a tile list. If it does not, add it to this list.
-	def __init__(self, parent, name, location, desc):
+	def __init__(self, parent, name, location, desc, direction_messages):
 		self.parent = parent
 		self.name = name
 		self.location = location
@@ -10,6 +10,8 @@ class Tile:
 
 		parent.tile_list.append(self)
 		parent.tile_dictionary[location] = self
+
+		self.direction_messages = direction_messages
 
 		# try:
 		# 	self.tile_list_list[self.tile_list_dictionary[parent]].append(self)
