@@ -9,7 +9,7 @@ class Command:
 		self.command = command
 		if previous_command:
 			self.independant = False
-			self.previous_command = self.name_dict[previous_command]
+			self.previous_command = previous_command
 		else:
 			self.independant = True
 			self.previous_command = None
@@ -23,11 +23,16 @@ def init():
 	#Previous commands must be listed first
 
 	command_list = [
-	['move', 	'MOVE_EMPTY'			],
-	['north', 	'MOVE_NORTH', 	'move'	],
-	['south', 	'MOVE_SOUTH', 	'move'	],
-	['east', 	'MOVE_EAST',	'move'	],
-	['west',	'MOVE_WEST',	'move'	]
+	['move', 	'MOVE_EMPTY'					],
+	['go',		'MOVE_EMPTY'					],
+	['north', 	'MOVE_NORTH', 	'MOVE_EMPTY'	],
+	['n',	 	'MOVE_NORTH', 	'MOVE_EMPTY'	],
+	['south', 	'MOVE_SOUTH', 	'MOVE_EMPTY'	],
+	['s',	 	'MOVE_SOUTH', 	'MOVE_EMPTY'	],
+	['east', 	'MOVE_EAST',	'MOVE_EMPTY'	],
+	['e',	 	'MOVE_EAST',	'MOVE_EMPTY'	],
+	['west',	'MOVE_WEST',	'MOVE_EMPTY'	],
+	['w',		'MOVE_WEST',	'MOVE_EMPTY'	]
 	]
 
 	for command in command_list:
@@ -57,7 +62,7 @@ def get_input():
 				commands.append(Command.name_dict[word])
 			else:
 				try:
-					if Command.name_dict[inp_split[i-1]] == Command.name_dict[word].previous_command:
+					if Command.name_dict[inp_split[i-1]].flag == Command.name_dict[word].previous_command:
 						commands.append(Command.name_dict[word])
 					else:
 						extra.append(not_lower)

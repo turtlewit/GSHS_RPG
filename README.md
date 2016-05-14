@@ -44,4 +44,5 @@ Engine Programmers:
 * Create classes for enemies, **player**, **NPCs**, planets, **items**, etc.
 * ~~Get basic movement and tile descriptions working.~~
 * Get basic entities to appear on tiles.
+* Develop combat system.
 * Develop content loading and file structure for content.
