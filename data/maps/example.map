@@ -11,3 +11,39 @@ TILE: "Pale Orange Landscape"
 	description="You stand facing a completely flat, pale orange landscape. There aren't even any cracks in the ground."
 	location=0,0
 }
+TILE: "Pale Orange Canyon"
+{
+	parent="Example"
+	description="A completely monotone canyon stretches out in front of you."
+	location=0,1
+	move_north_message="There's a drop that's around 100 meters straight down to the north. You decide that you have a few things to live for."
+	move_east_message="The canyon stretches for miles to the east. It would take days to reach the other side, and what then?"
+	move_west_message="The canyon stretches for miles to the west. It would take days to reach the other side, and what then?"
+}
+TILE: "Pale Orange Cave"
+{
+	parent="Example"
+	description="You enter a cool, orange cave. Like the rest of the planet, the cave is a pale-orange color, but it looks slightly different when there is no direct sunlight hitting it."
+	location=1,0
+	move_east_message="You attempt to traverse the cave, but realize that without a light, you start to fear the lack of orange present in the cave."
+	move_north_message="You bump gently into the cave wall."
+	move_south_message="You bump gently into the cave wall."
+}
+TILE: "Pale Orange Lakebed"
+{
+	parent="Example"
+	description="A moderate-sized dry lakebed stands between you and the rest of the orange expanse. There are, in fact, a few cracks in the ground here."
+	location=0,-1
+	move_south_message="The lakebed seems to be the only landmark for miles, so you decide not to go wandering off south."
+	move_east_message="The lakebed seems to be the only landmark for miles, so you decide not to go wandering off east."
+	move_west_message="A giant bird is eyeballing you to the west. You really don't like the look of that bird."
+}
+TILE: "Pale Orange Mesa"
+{
+	parent="Example"
+	description="You climb to the top of a great mesa. From here, you can see everything there is to see, which is exactly what you've been seeing since you stepped foot on this planet."
+	location=-1,0
+	move_west_message="In the shadow of the mesa, you hear strange creatures daring you to follow. You decide not to do that thing."
+	move_north_message="A huge cliff blocks your way."
+	move_south_message="A large cliff blocks your way."
+}

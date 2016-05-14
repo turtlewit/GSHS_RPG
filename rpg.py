@@ -7,6 +7,7 @@ colorama.init()
 from player import Player
 import world
 import command
+import conditions as condition
 
 current_os 	= platform.system()
 
@@ -20,7 +21,8 @@ map_dir = os.path.join('data', 'maps')
 def load_map(map_file_name):
 	map_file = open(os.path.join(map_dir, map_file_name))
 
-	possible_attributes = ['space_description', 'landing_description', 'location', 'parent', 'description']
+	possible_attributes = [	'space_description', 'landing_description', 'location', 'parent', 'description',
+							'move_east_message','move_west_message','move_north_message','move_south_message']
 
 	possible_types = ['WORLD', 'TILE']
 
@@ -85,16 +87,33 @@ def load_map(map_file_name):
 			name = i['name']
 			s_desc = i['space_description']
 			l_desc = i['landing_description']
-			location = (int(i['location'][0]),int(i['location'][2]))
-			print(name)
+			location = (int(i['location'].split(',')[0]), int(i['location'].split(',')[1]))
 			world.World(name,location,s_desc,l_desc)
 		if world_or_tile == 'TILE':
 			name = i['name']
 			parent = i['parent']
 			desc = i['description']
-			location = (int(i['location'][0]),int(i['location'][2]))
+			location = (int(i['location'].split(',')[0]), int(i['location'].split(',')[1]))
 
-			world.Tile(world.World.world_name_dictionary[parent], name, location, desc)
+			try:
+				move_north_message = i['move_north_message']
+			except:
+				move_north_message = None
+			try:
+				move_south_message = i['move_south_message']
+			except:
+				move_south_message = None
+			try:
+				move_east_message = i['move_east_message']
+			except:
+				move_east_message = None
+			try:
+				move_west_message = i['move_west_message']
+			except:
+				move_west_message = None
+
+			direction_messages = [move_north_message, move_south_message, move_east_message, move_west_message]
+			world.Tile(world.World.world_name_dictionary[parent], name, location, desc, direction_messages)
 #---------------------------------------------------------------------------------------------------------------#
 
 
@@ -169,36 +188,57 @@ buffer_x	= 80
 buffer_y	= 25
 
 print_list = []
-
+conditions = condition.Condition()
 player = Player()
 
 load_map('example.map')
 
-print('World position', world.World.world_list[0].location)
 while True:
 	current_world = world.find_world(player.global_position)
 	current_tile = world.find_tile(player.local_position, current_world)
 	print_list.append(lineConvert(current_tile.description))
 
+
 	setup_screen(print_list, player, current_world, current_tile)
 	print_list = []
 
-	flags = command.get_input(None)
+	for i, direction in enumerate(current_tile.direction_messages):
+		conditions.allowed_directions.pop(i)
+		conditions.allowed_directions.insert(i, True)
+		if direction != None:
+			conditions.allowed_directions.pop(i)
+			conditions.allowed_directions.insert(i, False)
+
+	
+
+	flags = command.get_input()
 	for i, flag in enumerate(flags):
 		if flag.flag == 'MOVE_EMPTY':
 			try:
 				if flags[i + 1].flag == 'MOVE_NORTH':
-					player.move(0, 1)
-					print_list.append('You move north.')
+					if conditions.allowed_directions[0] == True:
+						player.move(0, 1)
+						print_list.append('You move north.')
+					else:
+						print_list.append(lineConvert(current_tile.direction_messages[0]))
 				elif flags[i + 1].flag == 'MOVE_SOUTH':
-					player.move(1, 1)
-					print_list.append('You move south.')
+					if conditions.allowed_directions[1] == True:
+						player.move(1, 1)
+						print_list.append('You move south.')
+					else:
+						print_list.append(lineConvert(current_tile.direction_messages[1]))
 				elif flags[i + 1].flag == 'MOVE_EAST':
-					player.move(2, 1)
-					print_list.append('You move east.')
+					if conditions.allowed_directions[2] == True:
+						player.move(2, 1)
+						print_list.append('You move east.')
+					else:
+						print_list.append(lineConvert(current_tile.direction_messages[2]))
 				elif flags[i + 1].flag == 'MOVE_WEST':
-					player.move(3, 1)
-					print_list.append('You move west.')
+					if conditions.allowed_directions[3] == True:
+						player.move(3, 1)
+						print_list.append('You move west.')
+					else:
+						print_list.append(lineConvert(current_tile.direction_messages[3]))
 				else:
 					print_list.append('Move where?')
 			except:
