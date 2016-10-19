@@ -2,9 +2,8 @@ WORLD: "Example"
 {
 	space_description="A gigantic lump of nothing too interesting."
 	landing_description="Descending onto the planet, you feel somewhat proud of your accurate observational skills."
-	location=0,0
+	location=0,1
 }
-
 TILE: "Pale Orange Landscape"
 {
 	parent="Example"

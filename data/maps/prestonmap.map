@@ -1,0 +1,60 @@
+WORLD: "Sulfur"
+{
+	space_description="You spot a dull orange planet upon the horizon."
+	landing_description="Descending onto the planet, you spot a floating structure held by what appears to be large balloons."
+	location=0,-1
+}
+TILE: "Docking Port"
+{
+	parent="Sulfur" 
+	description="You stand in a circular tunnel connecting your ship to the entrance of the mysterious structure. A feeling of regret echos through your mind."  
+	location=0,0 
+	move_north_message="An incurved wall blocks your path" 
+	move_east_message="An incurved wall blocks your path" 
+	move_west_message="An incurved wall blocks your path" 
+}
+TILE: "Decontamination Room"
+{
+	parent="Sulfur"
+	description="You enter a small square room with what appears to be several damaged nozzles along the wall and ceiling. The sound of whispers is present in your thoughts."
+	location=0,-1
+	move_east_message="A monotone white wall blocks your path"
+	move_west_message="A monotone white wall blocks your path"
+}
+TILE: "Sensory Corridor"
+{
+	parent="Sulfur"
+	description="You enter a narrow corridor with several deactiavted sensors across the wall, A dark red light flashes illuminating the narrow chamber. Something feels wrong."
+	location=0,-2
+	move_east_message="A dark slick wall with deep claw marks engraved into the wall blocks your path."
+	move_west_message="A dark slick wall with deep claw marks engraved into the wall blocks your path."
+}
+TILE: "Sector Alpha General Room"
+{
+	parent="Sulfur"
+	description="You enter a bleak empty room, in the dim light you discover several barricaded doors leading to rooms of mysterious purpose. A feeling of greif crosses your mind."
+	location=0,-3
+	move_south_message="A pile of debris blocks corridor in front of you."
+}
+TILE: "Sector Alpha Terminal"
+{
+	parent="Sulfur"
+	description="You enter a large room with elongated walls. A pod attached to a single rail awaits in front of you awaiting usage. A chill run downs your spine. "
+	location=-1,-3
+	move_north_message="Large claw marks line the wall blocking your path"
+	move_south_message="Large claw marks line the wall blocking your path"
+}
+TILE: "Sector Bravo Terminal"
+{
+	parent="Sulfur"
+	description="You enter a large room with elongated walls. A pod attached to a single rail awaits in front of you awaitng usage. Claw marks are seen sprawled across the floor. You stare throughout the room expressing sorrow."
+	location=-2,-3
+	move_north_message="A slick black walls blocks your path shows intial signs of erosion"
+	move_south_message="A slick black walls blocks your path shows intial signs of erosion"
+}
+TILE: "Sector Bravo Terminal"
+{
+	parent="Sulfur"
+	location=-3,-3
+	description="You careful enter a mysterious room. Unknown symbols line the walls. Red lights flash illuminating the room in a strobe fashion. Deep claw marks line the walls. A sense of urgency and fear silenty echos through your mind.0"
+}

@@ -1,0 +1,70 @@
+TILE: "Starboard Weapons Pod"
+{
+	parent="Ship"
+	description="A large laser cannon, complete with controls, fills most of the room."
+	location=1,-3
+	move_north_message="You walked into the laser cannon. Thank goodness you didn't activate it."
+	move_east_message="You walked into a window. Be care with those, please."
+}
+TILE: "Starboard Weapons Bay"
+{
+	parent="Ship"
+	description="Here is where energy is produced and stored for the laser cannon. Arrays and generators line the room, filled with gray light."
+	location=1,-4
+	move_east_message="You tripped on a generator, but your fall was blocked by a wall."
+}
+TILE: "Computer Core"
+{
+	parent="Ship"
+	description="The room is lined with servers, with a wall of monitors. The screens are blank, as they are not in use."
+	location=1,-5
+}
+TILE: "Starboard Weapons Pod"
+{
+	parent="Ship"
+	description="The weapons pod here has the Railgun. More metal pieces can be found, as well a robotic arm for deployment."
+	location=2,-5
+	move_north_message="You bumped into the Railgun. Ouch."
+	move_east_message="You tripped on metal, and it hurt. Actually, it didn't."
+}
+TILE: "Starboard Weapons Bay"
+{
+	parent="Ship"
+	description="Large, metal pieces lie here, waiting for railgun deployment."
+	location=2,-6
+	move_east_message="You bumped into a wall of metal pieces."
+}
+TILE: "Quarters"
+{
+	parent="Ship"
+	description="Here is where the crew is set to sleep. In the corner, the baths and showers can be accessed."
+	location=1,-6
+}
+TILE: "Gym"
+{
+	parent="Ship"
+	description="This room is used for fitness of the crew. Multiple fitness machines can be seen lining the room."
+	location=1,-7
+}
+TILE: "Garden"
+{
+	parent="Ship"
+	description="Plant growth and muscle fabrication lines the tables. There are mechanisms for automating plant and meat harvest."
+	location=2,-7
+	move_east_message="Woah there, you almost smashed the plants."
+}
+TILE: "Water Purifier"
+{
+	parent="Ship"
+	description="Water is purified here, using tubes and filters. Water is brought into a fountain in the gym."
+	location=1,-8
+	move_south_message="You fell in the water. Luckily, there are machines designed for drying throughout the ship."
+}
+TILE: "Solar Farm"
+{
+	parent="Ship"
+	description="Solar panels are on the roof of this room, with wires coming down to bring the electricity down."
+	location=2,-8
+	move_east_message="You bumped into some energy storage machines."
+	move_south_message=""
+}

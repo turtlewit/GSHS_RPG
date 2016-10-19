@@ -1,0 +1,25 @@
+
+TILE: "Med Bay"
+{
+	parent="Ship"
+	description="You enter into a relatively small room with some medical supplies on the walls. Unless you're injured, you shouldn't be here, it's kinda weird when some guy stands around the injured people, you tend to get dirty looks from people"
+	location=1,-9
+	move_north_message="There's a wall here, it hurts more than you thought when you run into it"
+	move_west_message="There's a window here, the outside looks very nice up close and personal to the glass."
+}
+
+TILE: "Psycho's Office"
+{
+	parent="Ship"
+	description="You enter a small room that has a desk where a Psych. guy should be, inside the desk, there is some assorted office supplies and quite a bit of pills here."
+	location=1,-10
+	move_west_message="There is a wall here, and it would be better if you had not run into it, for your own safety."
+}
+
+TILE: "Air Lock"
+{
+	parent="Ship"
+	description="Sample Text."
+	location=1,-11
+	move_west_message="I would HIGHLY advise that you would not move west."
+}

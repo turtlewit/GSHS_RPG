@@ -1,0 +1,75 @@
+TILE: "Portside Weapons Pod" 
+{
+	parent="Ship"
+	description="Through a round hatch you enter spherical room. The missle pods remains inactive as only a small red light flashes on ignition button"
+	move_west_message="You smack your face into the side of the Weapons Pod."
+	move_north_message="You ram your head into the metal wall giving you a slight headache"
+	location=-1,-3
+}
+TILE: "Portside Weapons Bay"
+{
+	parent="Ship"
+	description="You enter the weapons bay, a vast room with rows of missles. A large robotical arm for loading missles remains inactive as you walk through the complex."
+	move_west_message="You continue to try to force your body through a solid metal wall"
+	location=-1,-4
+}
+TILE: "Astrometrics"
+{
+	parent="Ship"
+	description= "You observe the inputs of a large telescope as you enter the Astrometrics Room, the telescope along with dozens of computers are squeezed into a compact room."
+	location=-1,-5
+}
+TILE: "Mess Hall"
+{
+	parent="Ship"
+	description= "Through a hallway you enter the Mess Hall, the large grey bleak room remains empty as two large grey rectangular tables strech the length of the room"
+	location=-1,-6
+}
+TILE: "Kitchen"
+{
+	parent="Ship"
+	description= "You enter the Kitchen. Freezers rack the walls as you can make out other appliances threw the dim lighting."
+	location=-1,-7
+}
+TILE: "Pantry"
+{
+	parent="Ship"
+	description= "You enter the kitchens compact pantry. The pantry is filled with varios spices and salt packets"
+	move_south_message="You whack your head into the pantry wall"
+	location=-1,-8
+}
+TILE: "Portside Weapons Pod"
+{
+	parent="Ship"
+	description= "Through a round hatch you enter a spherical pod room, inside you see the long metal tube with wiring everywhere.The railgun inactive remains ready to fire at a moments notice"
+	move_north_message="You continue to try to walk through a solid steel wall"
+	move_west_message="There's a wall there moron."
+	location=-2,-5
+}
+TILE: "Portside Weapons Bay"
+{
+	parent="Ship"
+	description= "You enter a large white room. Along the floor lay racks of long sharp metal rods, ammunition for the railgun. A robotical arm remains inactive on the ceiling ment for loading the devastating power of the railgun"
+	location=-2,-6
+}
+TILE: "Hydroponics"
+{
+	parent="Ship"
+	description= "You enter the Hydroponics Garden. You are shortly blinded by the sudden flash of articifal light filling the room. Flat beds filled with dirt layer the floor as an advanced irragation system feeds the plants water through columns of clear colored pipes from the ceiling."
+	move_west_message="You stupidly ram your head into the Hydroponics wall."
+	location=-2,-7
+}
+TILE: "Solar Farm"
+{
+	parent="Ship"
+	description= "You enter the Solar Farm. Retractable panels remain folded in rows across the south of the room. Batteries filled with solar power buzz waiting to absorb more power when the panels are reactivated."
+	move_west_message="Did that feel good, I don't think your head can beat a metal wall very well."
+	move_south_message="Like your stupid self you ram your head into the wall trying to escape the safety of your spacecraft"
+	location=-2,-8
+}
+
+
+
+
+
+

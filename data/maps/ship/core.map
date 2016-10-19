@@ -1,0 +1,141 @@
+
+TILE: "The Bridge"
+{
+	parent="Ship"
+	description="View screens cover the front of the bridge.  Five control stations are arrayed around the room. The captain's station is in the center, the pilot and navigation stations are forward port and forward starboard, and the security and sensor stations aft port and aft starboard.  The control panels whirl to life and await your commands."
+	location=0,0
+	move_north_message="You run into the front view screen.  You have smudged the screens and now have to clean them."
+	move_east_message="You collide with the port bulkhead."
+	move_west_message="You collide with the starboard bulkhead."
+}
+
+TILE: "Forward Hall"
+{
+	parent="Ship"
+	description="This hall connects the bridge (forward) and Astrogation (aft). Pipes, cables, conduit, and access panels line the walls."
+	location=0,-1
+	move_east_message="You collide with the port bulkhead."
+	move_west_message="You collide with the starboard bulkhead."
+}
+
+TILE: "Astrogation Lab"
+{
+	parent="Ship"
+	description="This is the navigational hub of the ship.  Computers, displays, and sensor inputs fill this room.  The forward hall leads to the bridge, the aft core hallway leads to a core hallway junction."
+	location=0,-2
+}
+TILE: "Core Transfer Hub"
+{
+	parent="Ship"
+	description="This is a four way hub.  Astrogation is forward, the briefing room is aft and the weapons pods are port and starboard.  Pipes, cables, conduit, and access panels line the ceiling."
+	location=0,-3
+}
+TILE: "Briefing Room"
+{
+	parent="Ship"
+	description="A large meeting table fills the central part of the room surrounded by comfortable chairs.  Pop-up displays are built in to the table and large display screens can fold down from the ceiling.  Hatches port and starboard lead to the weapons bays, there is a forward and aft hallway."
+	location=0,-4
+}
+TILE: "Core Hallway"
+{
+	parent="Ship"
+	description="This is a four way hub.  The breifing room is forward, the main common room is aft, the Astrometrics lab is port and the computer core is starboard.  Pipes, cables, conduit, and access panels line the ceiling."
+	location=0,-5
+}
+TILE: "Forward Common Room"
+{
+	parent="Ship"
+	description="This is the foward third of the cental common room.  Forward is a forward hub and aft the room continues. To the port is the mess hall and starboard are the crew quarters.  The room contains comfortable chairs and couches.  View screens and entertainment systems and stationed around the room."
+	location=0,-6
+}
+TILE: "Central Common Room"
+{
+	parent="Ship"
+	description="This is the center of the cental common room.  Forward and aft the room continues. To the port is the kitchen and starboard is the gym.  The room contains comfortable chairs and couches.  View screens and entertainment systems and stationed around the room."
+	location=0,-7
+}
+TILE: "Rear Common Room"
+{
+	parent="Ship"
+	description="This is the aft third of the cental common room.  Forward the room continues and aft is an aft hub. To the port is the pantry and food storage and starboard is the water purification and recycling facilities.  The room contains comfortable chairs and couches.  View screens and entertainment systems and stationed around the room."
+	location=0,-8
+}
+TILE: "Core Hallway"
+{
+	parent="Ship"
+	description="This is a four way hub.  The main common room is forward, the auxillary control room is aft, the medical bay is port, and the security office is starboard.  Pipes, cables, conduit, and access panels line the ceiling."
+	location=0,-9
+}
+TILE: "Auxillary Control Center"
+{
+	parent="Ship"
+	description="This room contains the ship's secondary control systems. Back up control systems, emergency security systems, and damage control stations are located around the room. Foreward and aft are hallways, port is the psychiatrist's office, and starboard is the brig."
+	location=0,-10
+}
+TILE: "Core Hallway"
+{
+	parent="Ship"
+	description="This is a four way hub.  The auxillary control room is forward, the main science lab is aft, airlock rooms are both port and starboad.  Pipes, cables, conduit, and access panels line the ceiling.."
+	location=0,-11
+}
+TILE: "Main Science Lab and Research Lab"
+{
+	parent="Ship"
+	description="This is the main science lab.  Computers, screens, and various lab apparati are around the room.  Lab tables and sealed work spaces are in the middle of the room.  Chemicals and various glassware are in secure cabinets.  Port and Starboard are more specialized labs, forward and aft are hallways."
+	location=0,-12
+}
+TILE: "Core Hallway"
+{
+	parent="Ship"
+	description="This is a four way hub.  The main science lab is forward, the main engineering is aft, the cargo holds are port and starboard.  Pipes, cables, conduit, and access panels line the ceiling."
+	location=0,-13
+}
+TILE: "Main Engineering"
+{
+	parent="Ship"
+	description="This large room is the main engineering room. The walls are covered in dials, guages, and read-outs. Access shafts are scattered on the floor and ceiling of the room, leading to remote parts of the ship.  Pipes, cables, and conduit are found throughout the room. Machine and repair shops are found port and starboard. Foreward is a core hallway, aft is an engineering corridor."
+	location=0,-14
+}
+TILE: "Engineering Corridor"
+{
+	parent="Ship"
+	description="This is an engineering corridor. You must duck your head to move through this crowded hall filled with pipes, conduit, and cables. Hatches port and starboard lead into the fuel storage areas.  Foreward is main engineering and aft is the central fusion core and jump drive."
+	location=0,-15
+}
+TILE: "Central Fusion Core and Primary Jump Drive"
+{
+	parent="Ship"
+	description="The massive spherical fusion containment chamber takes up the center of this huge room. The curved tracks of particle accelerators circle the room and connect with the central core.  Jump drive compessors and extenders surround the fusion chamber and are linked with the accelerators.  Access tunnels run port and starboard to the fuel tanks."
+	location=0,-16
+}
+TILE: "Engineering Corridor"
+{
+	parent="Ship"
+	description="This is an engineering corridor. You must duck your head to move through this crowded hall filled with pipes, conduit, and cables. Hatches port and starboard lead into engine access areas.  Foreward is the central fusion core and jump drive. Aft is the mission locker room."
+	location=0,-17
+}
+TILE: "Mission Preperation Locker Room"
+{
+	parent="Ship"
+	description="This room contains all the equipment needed for missions off the ship. Two long benches run down the middle of the room and the walls are covered in lockers. The lockers contain weapons, environmental suits, portable science kits, survival equipment, medical kits, and any other equipment that might be needed on a mission away from the ship.  Forward in an engineering corridor and aft is the shuttle bay."
+	location=0,-18
+	move_east_message="You collide with the lockers on the port bulkhead."
+	move_west_message="You collide with the lockers on the starboard bulkhead."
+}
+TILE: "Shuttle Bay"
+{
+	parent="Ship"
+	description="This is the shuttle bay.  The main part of the bay is taken up with the two shuttles.  The Tesla and the Bohr are lined up nose to tail down the center of the bay, suspended over the bay doors by the docking grapples.  At the end of the row is an empty dock, the Hawking is missing.  Fuel lines and power cables snake across the ceiling and connect with the gapples.  Supply crates and tool boxes are secured on the port and starboard bulkheads. Forward is the mission prep locker room and aft is access to the main engine compartment."
+	location=0,-19
+	move_east_message="You collide with the port bulkhead."
+	move_west_message="You collide with the starboard bulkhead."
+}
+TILE: "Central Rear Engine Compartment"
+{
+	parent="Ship"
+	description="This is the main centrl engine. Fuel lines, power cables, conduit, cooling pipes, and computer control nodes fill the room.  Forward is the shuttle bay."
+	location=0,-20
+	move_east_message="You collide with the port bulkhead."
+	move_west_message="You collide with the starboard bulkhead."
+	move_south_message="You collide with the aft bulkhead, the heat and noise of the main engine can be felt."
+}

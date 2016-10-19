@@ -1,1 +1,7 @@
 *.pyc
+debug/
+Python3486/
+redist/
+Album_xl.png
+*.bat
+cxfreeze

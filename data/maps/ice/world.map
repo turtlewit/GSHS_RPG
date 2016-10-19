@@ -1,0 +1,6 @@
+WORLD: "Ice Planet"
+{
+	space_description=""
+	landing_description=""
+	location=0,3
+}
