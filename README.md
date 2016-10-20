@@ -7,7 +7,7 @@ Dependencies:
 * Pygame
 * Curses (comes with python, Windows requires alternate version)
 
-Not tested on Mac. Linux has problems with console size. Windows 
+Not tested on Mac. Linux has problems with console size. Windows works.
 
 Idea Checklist:
 
