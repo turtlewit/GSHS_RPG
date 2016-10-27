@@ -1,11 +1,13 @@
 from AdventureEngine.CoreEngine.game import Game
 from AdventureEngine.render.renderer import Renderer
 from AdventureEngine.CoreEngine.input import Input
+from AdventureEngine.CoreEngine.audio import Audio
 class Engine:
 	def __init__(self,game):
 		self.m_isRunning = False
 		self.m_game = game
 		self.m_renderingEngine = None
+		self.m_audio = Audio()
 		game.SetEngine(self);
 
 	def InitRenderer(self,name):

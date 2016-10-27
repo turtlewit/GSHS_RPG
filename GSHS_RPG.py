@@ -3,6 +3,7 @@ from AdventureEngine.CoreEngine.game import Game
 from AdventureEngine.components.gamecomponent import GameComponent
 from AdventureEngine.CoreEngine.input import Input
 from src.player import Player
+from src.audioplayer import AudioPlayer
 import load
 import os
 
@@ -50,6 +51,7 @@ class GSHS_RPG(Game):
 
 		pc = GameObject()
 		pc.AddComponent(Player())
+		pc.AddComponent(AudioPlayer())
 		self.AddObject(pc)
 		newmap.LoadMapsInDirectory(os.path.join('data', 'maps'), os.path.join('data', 'logs', 'log.log'))
 

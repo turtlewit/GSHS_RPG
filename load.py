@@ -58,7 +58,7 @@ class Map:
 
 				map_file = open(os.path.join(map_file_name))
 				log_file.write("%s\n" % map_file_name)
-				possible_attributes = [	'space_description', 'landing_description', 'location', 'parent', 'description',
+				possible_attributes = [	'space_description', 'landing_description', 'music', 'location', 'parent', 'description',
 									'move_east_message','move_west_message','move_north_message','move_south_message']
 
 				possible_types = ['WORLD', 'TILE']
@@ -131,6 +131,10 @@ class Map:
 							name = i['name']
 							s_desc = i['space_description']
 							l_desc = i['landing_description']
+							try:
+								musicname = i['music']
+							except:
+								musicname = None
 							location = (int(i['location'].split(',')[0]), int(i['location'].split(',')[1]))
 							#world.World(name,location,s_desc,l_desc)
 							World = GameObject()
@@ -139,6 +143,7 @@ class Map:
 							worldComponent.m_spaceDescription = s_desc
 							worldComponent.m_landingDescription = l_desc
 							worldComponent.m_name = name
+							worldComponent.m_music = musicname
 							World.AddComponent(worldComponent)
 							self.Worlds.append(World)
 						if world_or_tile == 'TILE' and loopNumber == 1:

@@ -7,6 +7,7 @@ class World(GameComponent):
 		self.m_spaceDescription = None
 		self.m_landingDescription = None
 		self.m_name = None
+		self.m_music = None
 		self.m_tileList = []
 
 class Tile(GameComponent):

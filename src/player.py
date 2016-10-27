@@ -1,5 +1,5 @@
 from AdventureEngine.components.gamecomponent import GameComponent
-from AdventureEngine.components.world import Tile
+from AdventureEngine.components.world import Tile, World
 from AdventureEngine.CoreEngine.input import Input
 from src.createmap import CreateMap
 import os
@@ -15,6 +15,9 @@ class Player(GameComponent):
 		self.currentTile = None
 		self.oldTile = Tile()
 
+		self.world = None
+		self.oldWorld = World()
+
 		self.printDescription = True
 
 		self.mapText = None
@@ -26,6 +29,7 @@ class Player(GameComponent):
 			pygame.mixer.init()
 		except:
 			self.playMusic = False
+		self.worldDifference=None
 
 	def Move(self, direction):
 		x = 0
@@ -108,25 +112,21 @@ class Player(GameComponent):
 						#self.thingToPrint.append(child2.m_components[0].m_name)
 						pass
 
-		worldDifference = None
+		if self.world != self.currentTile.m_parent.m_parent.m_components[0]:
+			self.world = self.currentTile.m_parent.m_parent.m_components[0]
+
+		self.worldDifference = None
 		try:
-			if self.oldTile.m_parent.m_parent.m_components[0].m_name != self.currentTile.m_parent.m_parent.m_components[0].m_name:
-				worldDifference = True
+			if self.oldWorld != self.world:
+				self.worldDifference = True
 			else:
-				worldDifference = False
+				self.worldDifference = False
 		except:
-			worldDifference = True
-		if worldDifference == True:
+			self.worldDifference = True
+		if self.worldDifference == True:
 			self.oldTile = self.currentTile
-			if self.playMusic:
-				pygame.mixer.music.stop()
-				if self.currentTile.m_parent.m_parent.m_components[0].m_name == "Example":
-					pygame.mixer.music.load(os.path.join('data', 'audio', 'rush-la-villa-strangiato.mp3'))
-					pygame.mixer.music.play()
-				elif self.currentTile.m_parent.m_parent.m_components[0].m_name == "Ship":
-					pygame.mixer.music.load(os.path.join('data', 'audio', '41_Starship_Bridge.mp3'))
-					pygame.mixer.music.play()
-			self.mapText = CreateMap.Create(self.currentTile.m_parent.m_parent, self)
+			self.oldWorld = self.world
+			self.mapText = CreateMap.Create(self.world.m_parent, self)
 
 			
 		# else:
