@@ -26,7 +26,6 @@ class Map:
 				self.Walking(adir)
 
 	def LoadMapsInDirectory(self, directory, log_file):
-
 		log_file = open(os.path.join(log_file), 'w')
 		self.Walking(directory)
 		#mapFiles = []
