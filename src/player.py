@@ -70,21 +70,23 @@ class Player(GameComponent):
 					directiondict = {curses.KEY_UP: 'n', curses.KEY_DOWN: 's', curses.KEY_LEFT: 'w', curses.KEY_RIGHT: 'e'}
 					self.Move(directiondict[Input().command])
 			else:
-				if Input().command.lower().split()[0] in ['move', 'go', 'walk', 'n', 's', 'e', 'w']:
-					try:
-						direction = Input().command.lower().split()[1]
-					except:
-						try:
-							direction = Input().command.lower().split()[0]
-						except:
-							direction = None
+				if len(Input().command.lower().split()) > 0:
 
-					if direction:
-						self.Move(direction)
+					if Input().command.lower().split()[0] in ['move', 'go', 'walk', 'n', 's', 'e', 'w']:
+						try:
+							direction = Input().command.lower().split()[1]
+						except:
+							try:
+								direction = Input().command.lower().split()[0]
+							except:
+								direction = None
+
+						if direction:
+							self.Move(direction)
 				
 
 
-				elif Input().command.lower() in ['map']:
+				if Input().command.lower() in ['map']:
 					self.printDescription = False
 					self.thingToPrint.append(self.mapText)
 					self.m_parent.m_renderer.useLineConvert = False
