@@ -81,3 +81,17 @@ class ExplorationState(State):
 		Input.takeTextInput = True
 		self.m_parent.m_renderer.m_vorCmd = ">"
 
+class MapState(State):
+	def __init__(self, controller):
+		State.__init__(self, controller, "map")
+
+	def Init2(self):
+		Input.takeTextInput = False
+		self.m_parent.m_renderer.m_vorCmd = None
+		Input.char = None
+
+	def Update2(self):
+		self.m_parent.m_renderer.m_renderObjects.append([0, 0, self.m_parent.m_player.mapText])
+
+		if Input.char:
+			self.m_controller.ChangeState("explore")

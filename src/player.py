@@ -89,9 +89,7 @@ class Player(GameComponent):
 
 
 				if Input().command.lower() in ['map']:
-					self.printDescription = False
-					self.thingToPrint.append(self.mapText)
-					self.m_parent.m_renderer.useLineConvert = False
+					self.m_parent.m_engine.m_game.m_root.stctrl.ChangeState("map")
 
 				elif Input().command.lower() in ['down']:
 					self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] + 1)

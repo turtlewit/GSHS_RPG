@@ -20,7 +20,7 @@ class AudioPlayer(GameComponent):
 		if self.play == True and self.player != None:
 			worldDifference = self.player.worldDifference
 			
-			if self.player.m_parent.m_engine.m_game.m_root.stctrl.GetState().m_name == "explore":
+			if self.player.m_parent.m_engine.m_game.m_root.stctrl.GetState().m_name == ("explore" or "map"):
 				if self.player.world.m_music:
 					if self.audio.m_currentSong != self.player.world.m_name:
 						self.audio.LoadSong(self.player.world.m_name, os.path.join('data', 'audio', self.player.world.m_music))
@@ -31,4 +31,5 @@ class AudioPlayer(GameComponent):
 			if self.player.m_parent.m_engine.m_game.m_root.stctrl.GetState().m_name == "default" and self.audio.m_currentSong != "menu":
 				self.audio.LoadSong("menu", os.path.join('data', 'audio', 'menu.mp3'))
 				self.audio.PlaySong("menu")
+
 

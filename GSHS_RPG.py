@@ -48,6 +48,7 @@ class Root(GameObject):
 	def __init__(self):
 		GameObject.__init__(self)
 		self.stctrl = None
+		self.m_player = None
 
 class GSHS_RPG(Game):
 
@@ -58,6 +59,7 @@ class GSHS_RPG(Game):
 		print(root.stctrl)
 		root.AddComponent(DefaultState(stctrl))
 		stctrl.ChangeState("default")
+		root.AddComponent(MapState(stctrl))
 		root.AddComponent(ExplorationState(stctrl))
 		self.AddObject(root)
 		self.m_root = root
@@ -67,6 +69,7 @@ class GSHS_RPG(Game):
 		pc.AddComponent(Player())
 		pc.AddComponent(AudioPlayer())
 		self.AddObject(pc)
+		root.m_player = pc.m_components[0]
 		newmap.LoadMapsInDirectory(os.path.join('data', 'maps'), os.path.join('data', 'logs', 'log.log'))
 
 		for world in newmap.Worlds:
