@@ -21,7 +21,7 @@ class Renderer:
 		self.m_screen.keypad(True)
 
 		self.m_header = []
-		self.m_vorCmd = ">"
+		self.m_vorCmd = ""
 		self.m_cmd = ""
 		self.m_mainTextBox = ""
 		self.m_compareTextBox = ""
@@ -31,6 +31,8 @@ class Renderer:
 		self.useLineConvert = True
 
 		self.tickClock = pygame.time.Clock()
+
+		self.m_renderObjects = []		#Typical object: [y, x, text]
 
 	def LineConvert(self, line):
 		line = line.split()
@@ -62,6 +64,7 @@ class Renderer:
 
 		#self.Cleanup()
 		self.m_screen.clear()
+
 		l = 0
 		for line in self.m_header:
 			self.m_screen.addstr(l,0,line)
@@ -87,13 +90,18 @@ class Renderer:
 			self.m_placeInList += 1
 
 		self.m_screen.addstr(l, 0, self.m_incompleteTextBox)
+		
 		if(self.m_vorCmd != None):
 			self.m_screen.addstr(self.BUFFER_Y -1, 0, self.m_vorCmd)
-
+		
 		self.m_screen.addstr(self.m_cmd)
+
+		for obj in self.m_renderObjects:
+			self.m_screen.addstr(obj[0], obj[1], obj[2])
 
 		self.m_screen.refresh()
 		self.m_mainTextBox = ""
+		self.m_renderObjects = []
 
 		
 

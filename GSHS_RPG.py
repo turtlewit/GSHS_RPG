@@ -2,11 +2,13 @@ from AdventureEngine.CoreEngine.gameobject import GameObject
 from AdventureEngine.CoreEngine.game import Game
 from AdventureEngine.components.gamecomponent import GameComponent
 from AdventureEngine.CoreEngine.input import Input
+from src.states import *
 from src.player import Player
 from src.audioplayer import AudioPlayer
 import load
 import os
 
+'''
 class DumbThing(GameComponent):
 
 	def __init__(self):
@@ -40,13 +42,25 @@ class DumbThing(GameComponent):
 
 		if self.m_print:
 			self.m_parent.m_renderer.m_mainTextBox = "Skrub Lord"
+'''
+
+class Root(GameObject):
+	def __init__(self):
+		GameObject.__init__(self)
+		self.stctrl = None
 
 class GSHS_RPG(Game):
 
 	def Initialize(self):
-		testObject = GameObject()
-		testObject.AddComponent(DumbThing())
-		self.AddObject(testObject)
+		root = Root()
+		stctrl = root.AddComponent(StateController())
+		root.stctrl = stctrl
+		print(root.stctrl)
+		root.AddComponent(DefaultState(stctrl))
+		stctrl.ChangeState("default")
+		root.AddComponent(ExplorationState(stctrl))
+		self.AddObject(root)
+		self.m_root = root
 		newmap = load.Map()
 
 		pc = GameObject()

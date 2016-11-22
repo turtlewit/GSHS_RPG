@@ -31,6 +31,8 @@ class Player(GameComponent):
 			self.playMusic = False
 		self.worldDifference=None
 
+		self.stctrl = None
+
 	def Move(self, direction):
 		x = 0
 		y = 0
@@ -145,6 +147,7 @@ class Player(GameComponent):
 				self.thingToPrint.append(self.currentTile.m_name)
 				self.thingToPrint.append(self.currentTile.m_description)
 
-
-		for i in self.thingToPrint:
-			self.m_parent.m_renderer.m_mainTextBox += ("%s\n" % i)
+		if self.m_parent.m_engine.m_game.m_root.stctrl.GetState().m_name == "explore":
+			for i in self.thingToPrint:
+				self.m_parent.m_renderer.m_mainTextBox += ("%s\n" % i)
+			
