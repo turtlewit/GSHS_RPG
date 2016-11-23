@@ -14,7 +14,7 @@ class GameObject:
 		self.m_components.append(component)
 		component.SetParent(self)
 
-		return self
+		return self.m_components[len(self.m_components) - 1]
 
 	def AddChild(self, child):
 		self.m_children.append(child)

@@ -11,6 +11,7 @@ class Audio:
 
 		self.m_sounds = {}
 		self.m_songs = {}
+		self.m_currentSong = None
 
 		self.m_queue = []
 
@@ -54,15 +55,16 @@ class Audio:
 
 	def PlaySong(self, name, loops=-1, startTime=0.0):
 		if self.mixerInit:
-			try:
+			if pygame.mixer.music.get_busy():
 				pygame.mixer.music.stop()
-			except:
-				pass
 
 			pygame.mixer.music.load(self.m_songs[name])
+			self.m_currentSong = name
 			pygame.mixer.music.play(loops, startTime)
 	def StopMusic(self):
 		if self.mixerInit:
-			pygame.mixer.music.stop()
+			self.m_currentSong = None
+			if pygame.mixer.music.get_busy():
+				pygame.mixer.music.stop()
 
 

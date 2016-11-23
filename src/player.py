@@ -31,27 +31,29 @@ class Player(GameComponent):
 			self.playMusic = False
 		self.worldDifference=None
 
+		self.stctrl = None
+
 	def Move(self, direction):
 		x = 0
 		y = 0
 		if direction in ['n', 'north']:
 			if self.currentTile.move_north_message:
-				self.thingToPrint.append(self.currentTile.move_north_message)
+				self.thingToPrint.insert(0, self.currentTile.move_north_message)
 			else:
 				y = 1
 		elif direction in ['s', 'south']:
 			if self.currentTile.move_south_message:
-				self.thingToPrint.append(self.currentTile.move_south_message)
+				self.thingToPrint.insert(0, self.currentTile.move_south_message)
 			else:
 				y = -1
 		elif direction in ['e', 'east']:
 			if self.currentTile.move_east_message:
-				self.thingToPrint.append(self.currentTile.move_east_message)
+				self.thingToPrint.insert(0, self.currentTile.move_east_message)
 			else:
 				x = 1
 		elif direction in ['w', 'west']:
 			if self.currentTile.move_west_message:
-				self.thingToPrint.append(self.currentTile.move_west_message)
+				self.thingToPrint.insert(0, self.currentTile.move_west_message)
 			else:
 				x = -1
 
@@ -87,9 +89,7 @@ class Player(GameComponent):
 
 
 				if Input().command.lower() in ['map']:
-					self.printDescription = False
-					self.thingToPrint.append(self.mapText)
-					self.m_parent.m_renderer.useLineConvert = False
+					self.m_parent.m_engine.m_game.m_root.stctrl.ChangeState("map")
 
 				elif Input().command.lower() in ['down']:
 					self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] + 1)
@@ -142,9 +142,12 @@ class Player(GameComponent):
 
 		if self.currentTile:
 			if self.currentTile.m_description not in self.thingToPrint and self.printDescription == True:
+				self.m_parent.m_renderer.m_mainTextBox = ""
 				self.thingToPrint.append(self.currentTile.m_name)
 				self.thingToPrint.append(self.currentTile.m_description)
 
-
-		for i in self.thingToPrint:
-			self.m_parent.m_renderer.m_mainTextBox += ("%s\n" % i)
+		if self.m_parent.m_engine.m_game.m_root.stctrl.GetState().m_name == "explore":
+			for i in self.thingToPrint:
+				if i not in self.m_parent.m_renderer.m_mainTextBox:
+					self.m_parent.m_renderer.m_mainTextBox += ("%s\n" % i)
+			
