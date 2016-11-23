@@ -24,6 +24,7 @@ class Renderer:
 		self.m_vorCmd = ""
 		self.m_cmd = ""
 		self.m_mainTextBox = ""
+		self.m_mainTextBox2 = ""
 		self.m_compareTextBox = ""
 		self.m_incompleteTextBox = ""
 		self.m_placeInList = 0
@@ -81,9 +82,9 @@ class Renderer:
 				for line in self.m_mainTextBox.split('\n'):
 					newMainTextBox += "%s\n" % self.LineConvert(line)
 
-				self.m_mainTextBox = newMainTextBox
+				self.m_mainTextBox2 = newMainTextBox
 
-		mainTextBoxList = list(self.m_mainTextBox)
+		mainTextBoxList = list(self.m_mainTextBox2)
 
 		if self.m_placeInList < len(mainTextBoxList):
 			self.m_incompleteTextBox += mainTextBoxList[self.m_placeInList]
@@ -100,8 +101,11 @@ class Renderer:
 			self.m_screen.addstr(obj[0], obj[1], obj[2])
 
 		self.m_screen.refresh()
+
+		"""
 		self.m_mainTextBox = ""
 		self.m_renderObjects = []
+		"""
 
 		
 

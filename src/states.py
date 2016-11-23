@@ -55,6 +55,7 @@ class DefaultState(State):
 	def Update2(self):
 
 		if self.timeticks >= 60:
+			self.renderer.m_renderObjects = []
 			self.timeticks = 0
 			self.textobject2IsIn = not self.textobject2IsIn
 
@@ -66,7 +67,10 @@ class DefaultState(State):
 			self.stuffToGive.append(self.object2)
 
 		for thing in self.stuffToGive:
-			self.renderer.m_renderObjects.append(thing)
+			if thing not in self.renderer.m_renderObjects:
+				self.renderer.m_renderObjects.append(thing)
+
+		
 
 		self.timeticks +=1
 
@@ -78,6 +82,7 @@ class ExplorationState(State):
 		State.__init__(self, controller, "explore")
 
 	def Init2(self):
+		self.m_parent.m_renderer.m_renderObjects = []
 		Input.takeTextInput = True
 		self.m_parent.m_renderer.m_vorCmd = ">"
 
@@ -91,7 +96,8 @@ class MapState(State):
 		Input.char = None
 
 	def Update2(self):
-		self.m_parent.m_renderer.m_renderObjects.append([0, 0, self.m_parent.m_player.mapText])
+		if [0, 0, self.m_parent.m_player.mapText] not in self.m_parent.m_renderer.m_renderObjects:
+			self.m_parent.m_renderer.m_renderObjects.append([0, 0, self.m_parent.m_player.mapText])
 
 		if Input.char:
 			self.m_controller.ChangeState("explore")
