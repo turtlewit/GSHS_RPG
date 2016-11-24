@@ -1,6 +1,12 @@
-import os
+"""Load module
+
+This module declares the Map class. The purpose of this class is to load the .map files inside of data/maps.
+"""
+
 import AdventureEngine.components.world as world
 from AdventureEngine.CoreEngine.gameobject import GameObject
+
+import os
 
 
 class Map:
@@ -10,7 +16,6 @@ class Map:
 		self.mapFiles = []
 
 	def Walking(self,directory):
-
 		for root, dirs, files in os.walk(directory):
 			for file in files:
 				for file in files:
@@ -28,37 +33,16 @@ class Map:
 	def LoadMapsInDirectory(self, directory, log_file):
 		log_file = open(os.path.join(log_file), 'w')
 		self.Walking(directory)
-		#mapFiles = []
-		# for root, dirs, files in os.walk(directory):
-		# 	for file in files:
-		# 		if file.endswith('.map'):
-		# 			path = os.path.join(root)
-		# 			for adir in dirs:
-						
-		# 				path = os.path.join(path, adir)
-		# 				try:
-		# 					log_file.write(file)
-		# 					open(os.path.join(path,file))
-		# 					close(os.path.join(path,file))
-
-		# 					if file == "world.map":
-		# 						if os.path.join(path,file) not in mapFiles:
-		# 							mapFiles.insert(0, os.path.join(path,file))
-		# 					else:
-		# 						if os.path.join(path,file) not in mapFiles:
-		# 							mapFiles.append(os.path.join(path,file))
-		# 				except:
-		# 					log_file.write("\n%s probably doesn't exist." % str(os.path.join(path,file)))
-
-		#log_file.write(str(self.mapFiles))
 		for loopNumber in range(0, 2):
 
 			for map_file_name in self.mapFiles:
 
 				map_file = open(os.path.join(map_file_name))
 				log_file.write("%s\n" % map_file_name)
-				possible_attributes = [	'space_description', 'landing_description', 'music', 'location', 'parent', 'description',
-									'move_east_message','move_west_message','move_north_message','move_south_message']
+				possible_attributes = [
+						'space_description', 'landing_description', 'music', 
+						'location', 'parent', 'description', 'move_east_message',
+						'move_west_message', 'move_north_message', 'move_south_message']
 
 				possible_types = ['WORLD', 'TILE']
 

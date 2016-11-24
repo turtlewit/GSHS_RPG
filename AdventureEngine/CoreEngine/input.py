@@ -39,8 +39,10 @@ class Input:
 							Input.unf_command = Input.unf_command[:-1]
 
 					if currentCharacter >=32 and currentCharacter <= 126:
-						renderer.m_cmd += chr(currentCharacter)
-						Input.unf_command += chr(currentCharacter)
+
+						if len(Input.unf_command) < renderer.BUFFER_X - len(renderer.m_vorCmd) - 1:
+							renderer.m_cmd += chr(currentCharacter)
+							Input.unf_command += chr(currentCharacter)
 
 					if currentCharacter in [curses.KEY_UP, curses.KEY_DOWN, curses.KEY_LEFT, curses.KEY_RIGHT]:
 						Input.command = currentCharacter
