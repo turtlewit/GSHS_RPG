@@ -38,4 +38,8 @@ class GameObject:
 	def SetRenderer(self,renderer):
 		self.m_renderer = renderer
 
-	
+	def GetAllChildren(self):
+		returnStuff = self.m_children
+		for child in self.m_children:
+			returnStuff += child.GetAllChildren()
+		return returnStuff
