@@ -104,18 +104,20 @@ class ExplorationState(State):
 					self.m_parent.m_renderer.m_mainTextBoxList.append(i)
 
 		if self.checkForItems:
+			'''
 			if self.m_parent.m_transform == self.m_parent.m_player.m_parent.m_transform:
 				for comp in self.m_parent.m_components:
 					if comp.m_type == "item":
 						if comp.m_enabled:
 							self.m_parent.m_renderer.m_mainTextBoxList.append(comp.m_groundDescription)
-
-			for child in self.m_parent.GetAllChildren():
+			'''
+			for child in self.m_parent.m_player.world.m_parent.m_children:
 				if child.m_transform == self.m_parent.m_player.m_parent.m_transform:
 					for comp in child.m_components:
 						if comp.m_type == "item":
 							if comp.m_enabled:
 								self.m_parent.m_renderer.m_mainTextBoxList.append(comp.m_groundDescription)
+
 
 			self.m_parent.m_player.changeTile = False
 
@@ -137,13 +139,14 @@ class ExplorationState(State):
 			self.checkForItems = True
 			if type(Input().command) is str:
 				if Input.command.lower().split()[0] == "inspect":
+					'''
 					if self.m_parent.m_transform == self.m_parent.m_player.m_parent.m_transform:
 						for comp in self.m_parent.m_components:
 							if comp.m_type == "item":
 								if comp.m_enabled and comp.m_name == Input.command.lower().split()[1]:
 									self.extraToPrint.append(comp.m_inspectDescription)
-
-					for child in self.m_parent.GetAllChildren():
+					'''
+					for child in self.m_parent.m_player.world.m_parent.m_children:
 						if child.m_transform == self.m_parent.m_player.m_parent.m_transform:
 							for comp in child.m_components:
 								if comp.m_type == "item":

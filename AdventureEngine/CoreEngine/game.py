@@ -3,6 +3,7 @@ from AdventureEngine.CoreEngine.gameobject import GameObject
 class Game:
 	def __init__(self):
 		self.m_root = None
+		self.m_engine = None
 
 	def Initialize(self):
 		pass
@@ -11,6 +12,7 @@ class Game:
 		self.GetRootObject().UpdateAll()
 
 	def SetEngine(self, engine):
+		self.m_engine = engine
 		self.GetRootObject().SetEngine(engine)
 
 	def SetRenderer(self, renderer):

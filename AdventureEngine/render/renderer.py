@@ -38,9 +38,6 @@ class Renderer:
 
 		self.tickClock = pygame.time.Clock()
 
-		self.log = open(os.path.join('data', 'logs', 'renderlog.log'), 'w')
-		self.writtenToLogFile = ""
-
 		self.m_renderObjects = []		#Typical object: [y, x, text]
 
 	def LineConvert(self, line):
@@ -80,6 +77,7 @@ class Renderer:
 			l+=1
 
 		if self.m_compareTextBoxList != self.m_mainTextBoxList and len(self.m_mainTextBoxList) > 0:
+			self.useLineConvert = True
 			if len(self.m_compareTextBoxList) < len(self.m_mainTextBoxList):
 				isInMainTextBox = True
 				for item in self.m_compareTextBoxList:
@@ -97,8 +95,12 @@ class Renderer:
 					self.m_compareTextBoxList = self.m_mainTextBoxList
 					self.m_mainTextBox = ""
 					self.m_incompleteTextBox = ""
-
-
+			else:
+				self.m_placeInList = 0
+				self.m_compareTextBoxList = self.m_mainTextBoxList
+				self.m_mainTextBox = ""
+				self.m_incompleteTextBox = ""
+			'''
 			elif len(self.m_compareTextBoxList) > len(self.m_mainTextBoxList):
 				numInCompTextBox = 0
 				for item in self.m_mainTextBoxList:
@@ -106,12 +108,6 @@ class Renderer:
 						break
 					numInCompTextBox += 1
 
-				'''
-				if isInMainTextBox:
-					self.m_placeInList = len(self.m_mainTextBox) - 1
-					self.m_compareTextBoxList = self.m_mainTextBoxList
-					self.m_mainTextBox = ""
-				'''
 				if numInCompTextBox > 0:
 					lengthCompTextBox = 0
 					for i in range(0, numInCompTextBox):
@@ -128,11 +124,8 @@ class Renderer:
 					self.m_compareTextBoxList = self.m_mainTextBoxList
 					self.m_mainTextBox = ""
 					self.m_incompleteTextBox = ""
-			else:
-				self.m_placeInList = 0
-				self.m_compareTextBoxList = self.m_mainTextBoxList
-				self.m_mainTextBox = ""
-				self.m_incompleteTextBox = ""
+			'''
+			
 
 		for item in self.m_mainTextBoxList:
 			if item not in self.m_mainTextBox:
@@ -146,19 +139,42 @@ class Renderer:
 						newMainTextBox += "%s\n" % self.LineConvert(line)
 
 				self.m_mainTextBox2 = newMainTextBox
+				self.useLineConvert = False
 
 		mainTextBoxList = list(self.m_mainTextBox2)
 
 		
 		if self.m_placeInList < len(mainTextBoxList):
-			self.m_incompleteTextBox = ""
-			for i in range(0, self.m_placeInList):
-				self.m_incompleteTextBox += mainTextBoxList[i]
-			
+			if len(self.m_mainTextBox2) < self.m_placeInList:
+				self.m_incompleteTextBox = ""
+				for i in range(0, self.m_placeInList):
+					self.m_incompleteTextBox += mainTextBoxList[i]
+			else:
+				self.m_incompleteTextBox += mainTextBoxList[self.m_placeInList]
 			self.m_placeInList += 1
+		'''
+
+		if self.m_compareTextBoxList != self.m_mainTextBoxList:
+			self.m_mainTextBox = ""
+			self.m_compareTextBoxList = self.m_mainTextBoxList
+			self.m_mainTextBox2 = ""
 
 
-		self.m_screen.addstr(l, 0, self.m_incompleteTextBox)
+		for item in self.m_mainTextBoxList:
+			if item not in self.m_mainTextBox:
+				self.m_mainTextBox += ("%s\n") % item
+
+		if self.useLineConvert == True:
+			newMainTextBox = ""
+			for line in self.m_mainTextBox.split('\n'):
+				if line != "" and line != "\n" and line != " ":
+					newMainTextBox += "%s\n" % self.LineConvert(line)
+
+				self.m_mainTextBox2 = newMainTextBox
+		'''
+
+		if self.m_vorCmd != None:
+			self.m_screen.addstr(l, 0, self.m_incompleteTextBox)
 		
 		if(self.m_vorCmd != None):
 			self.m_screen.addstr(self.BUFFER_Y -1, 0, self.m_vorCmd)
@@ -178,6 +194,5 @@ class Renderer:
 		
 
 	def Cleanup(self):
-		self.log.close()
 		curses.endwin()
 

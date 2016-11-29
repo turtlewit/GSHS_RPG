@@ -65,7 +65,6 @@ class Player(GameComponent):
 		if Input().command:
 			self.thingToPrint = []
 			self.printDescription = True
-			self.m_parent.m_renderer.useLineConvert = True
 
 			if type(Input().command) is not str:
 				if Input().command in [curses.KEY_UP, curses.KEY_DOWN, curses.KEY_LEFT, curses.KEY_RIGHT]:
