@@ -23,7 +23,7 @@ class Item(GameComponent):
 		if self.m_parent.m_engine.m_game.m_root.m_player.m_parent.m_transform == self.m_parent.m_transform and self.m_parent.m_engine.m_game.m_root.m_player.m_spaceTransform == self.m_parent.m_parent.m_parent.m_transform:
 			self.m_active = True
 		else:
-			self.m_actice = False
+			self.m_active = False
 		if self.m_enabled and self.m_active:
 			self.Update2()
 
