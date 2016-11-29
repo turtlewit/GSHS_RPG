@@ -3,6 +3,7 @@ WORLD: "Tutorial"
 	space_description="This doesn't really matter in this case, I don't think. If it does, I'll change this."
 	landing_description="See: Above."
 	location=0,0
+	music="waterworld.wav"
 }
 TILE: "Northernmost Walkway Tile"
 {

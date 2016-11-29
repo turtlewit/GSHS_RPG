@@ -3,7 +3,6 @@ WORLD: "Sulfur"
 	space_description="You spot a dull orange planet upon the horizon."
 	landing_description="Descending onto the planet, you spot a floating structure held by what appears to be large balloons."
 	location=0,-1
-	music="waterworld.wav"
 }
 TILE: "Docking Port"
 {
