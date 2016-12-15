@@ -138,7 +138,7 @@ class ExplorationState(State):
 			self.extraToPrint = []
 			self.checkForItems = True
 			if type(Input().command) is str:
-				if Input.command.lower().split()[0] == "inspect":
+				if Input.command.lower().split()[0] == "inspect" and len(Input.command.lower().split()) == 2:
 					'''
 					if self.m_parent.m_transform == self.m_parent.m_player.m_parent.m_transform:
 						for comp in self.m_parent.m_components:

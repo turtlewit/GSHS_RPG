@@ -269,7 +269,7 @@ class Map:
 							World.AddComponent(worldComponent)
 							self.Worlds.append(World)
 						if world_or_tile == 'TILE' and loopNumber == 1:
-							#try:
+							try:
 								name2 = ' '.join(i['name'].split())
 								parent = ' '.join(i['parent'].split())
 								desc = ' '.join(i['description'].split())
@@ -302,8 +302,8 @@ class Map:
 										if component.m_name == parent:
 											aworld.AddChild(Tile)
 
-							# except:
-							# 	log_file.write("Could not load tile %s.\n" % (i['name']))
+							except:
+								log_file.write("Could not load tile %s.\n" % (i['name']))
 					# except:
 					# 	log_file.write("Could not load entity.\n\n%s\n\n" % str(returnstuff))
 				map_file.close()
