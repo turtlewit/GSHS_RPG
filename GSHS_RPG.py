@@ -6,6 +6,8 @@ from AdventureEngine.CoreEngine.input import Input
 from src.states import *
 from src.player import Player
 from src.audioplayer import AudioPlayer
+from src.i_signpost1 import ISignPost
+from src.maps.maps import MapDefs
 
 import load
 import os
@@ -40,6 +42,20 @@ class GSHS_RPG(Game):
 		root.m_player = pc.m_components[0]
 		newmap.LoadMapsInDirectory(os.path.join('data', 'maps'), 
 				os.path.join('data', 'logs', 'log.log'))
+		'''
+		i_sp_go = GameObject()
+		i_sp_go.AddComponent(ISignPost())
+		root.AddChild(i_sp_go)
+		'''
+
+		for m in MapDefs(self.m_engine).GetMaps():
+			self.AddObject(m)
 
 		for world in newmap.Worlds:
-			self.AddObject(world)
+			isFound = False
+			for child in self.GetRootObject().GetAllChildren():
+				if world.m_components[0].m_name == child.m_components[0].m_name:
+					isFound = True
+					break
+			if not isFound:
+				self.AddObject(world)

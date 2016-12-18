@@ -65,7 +65,6 @@ class Player(GameComponent):
 		if Input().command:
 			self.thingToPrint = []
 			self.printDescription = True
-			self.m_parent.m_renderer.useLineConvert = True
 
 			if type(Input().command) is not str:
 				if Input().command in [curses.KEY_UP, curses.KEY_DOWN, curses.KEY_LEFT, curses.KEY_RIGHT]:
@@ -142,12 +141,14 @@ class Player(GameComponent):
 
 		if self.currentTile:
 			if self.currentTile.m_description not in self.thingToPrint and self.printDescription == True:
-				self.m_parent.m_renderer.m_mainTextBox = ""
+				#self.m_parent.m_renderer.m_mainTextBox = ""
 				self.thingToPrint.append(self.currentTile.m_name)
 				self.thingToPrint.append(self.currentTile.m_description)
 
+		'''
 		if self.m_parent.m_engine.m_game.m_root.stctrl.GetState().m_name == "explore":
 			for i in self.thingToPrint:
 				if i not in self.m_parent.m_renderer.m_mainTextBox:
 					self.m_parent.m_renderer.m_mainTextBox += ("%s\n" % i)
+		'''
 			

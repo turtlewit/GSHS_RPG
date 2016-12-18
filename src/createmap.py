@@ -2,6 +2,8 @@ import os
 class CreateMap:
 	def Create(world, player):
 		log_file = open(os.path.join('data', 'logs', 'maplog.log'), 'w')
+		for child in world.m_children:
+			log_file.write("%s\n" % str(child))
 		xBounds = (0,0)
 		yBounds = (0,0)
 
@@ -28,12 +30,13 @@ class CreateMap:
 			for x in range(xBounds[0], xBounds[1] + 1):
 				tileFound = False
 				for child1 in world.m_children:
-					if child1.m_transform == player.m_parent.m_transform and child1.m_transform == (x,y):
-						mapText += 'P'
-						tileFound = True
-					elif child1.m_transform == (x,y):
-						mapText += 't'
-						tileFound = True
+					if child1.m_components[0].m_type == "tile":
+						if child1.m_transform == player.m_parent.m_transform and child1.m_transform == (x,y):
+							mapText += 'P'
+							tileFound = True
+						elif child1.m_transform == (x,y):
+							mapText += 't'
+							tileFound = True
 				if tileFound == False:
 					mapText += ' '
 					log_file.write("%s\n" % str((x,y)))

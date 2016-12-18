@@ -23,9 +23,14 @@ class Renderer:
 		self.m_header = []
 		self.m_vorCmd = ""
 		self.m_cmd = ""
+
+		# External Modification OK
+		self.m_mainTextBoxList = []
+		self.m_compareTextBoxList = []
+
+		# Do not externally modify
 		self.m_mainTextBox = ""
 		self.m_mainTextBox2 = ""
-		self.m_compareTextBox = ""
 		self.m_incompleteTextBox = ""
 		self.m_placeInList = 0
 
@@ -71,26 +76,105 @@ class Renderer:
 			self.m_screen.addstr(l,0,line)
 			l+=1
 
-		if self.m_compareTextBox != self.m_mainTextBox:
-			self.m_placeInList = 0
-			self.m_compareTextBox = self.m_mainTextBox
-			self.m_incompleteTextBox = ""
+		if self.m_compareTextBoxList != self.m_mainTextBoxList and len(self.m_mainTextBoxList) > 0:
+			self.useLineConvert = True
+			if len(self.m_compareTextBoxList) < len(self.m_mainTextBoxList):
+				isInMainTextBox = True
+				for item in self.m_compareTextBoxList:
+					if item not in self.m_mainTextBoxList:
+						isInMainTextBox = False
+
+				if isInMainTextBox:
+					if self.m_placeInList > 0:
+						self.m_placeInList = len(self.m_mainTextBox) - 1
+					self.m_compareTextBoxList = self.m_mainTextBoxList
+					self.m_mainTextBox = ""
+
+				else:
+					self.m_placeInList = 0
+					self.m_compareTextBoxList = self.m_mainTextBoxList
+					self.m_mainTextBox = ""
+					self.m_incompleteTextBox = ""
+			else:
+				self.m_placeInList = 0
+				self.m_compareTextBoxList = self.m_mainTextBoxList
+				self.m_mainTextBox = ""
+				self.m_incompleteTextBox = ""
+			'''
+			elif len(self.m_compareTextBoxList) > len(self.m_mainTextBoxList):
+				numInCompTextBox = 0
+				for item in self.m_mainTextBoxList:
+					if item not in self.m_compareTextBoxList:
+						break
+					numInCompTextBox += 1
+
+				if numInCompTextBox > 0:
+					lengthCompTextBox = 0
+					for i in range(0, numInCompTextBox):
+						lengthCompTextBox += len(self.m_compareTextBoxList[i])
+
+					lengthCompTextBox -= 1
+					self.m_placeInList = lengthCompTextBox
+					self.m_mainTextBox = ""
+
+					self.m_compareTextBoxList = self.m_mainTextBoxList
+
+				else:
+					self.m_placeInList = 0
+					self.m_compareTextBoxList = self.m_mainTextBoxList
+					self.m_mainTextBox = ""
+					self.m_incompleteTextBox = ""
+			'''
+			
+
+		for item in self.m_mainTextBoxList:
+			if item not in self.m_mainTextBox:
+				self.m_mainTextBox += ("%s\n") % item
 
 		if self.useLineConvert == True:
 			if len(self.m_mainTextBox.split()) > 0:
 				newMainTextBox = ""
 				for line in self.m_mainTextBox.split('\n'):
-					newMainTextBox += "%s\n" % self.LineConvert(line)
+					if line != "" and line != "\n" and line != " ":
+						newMainTextBox += "%s\n" % self.LineConvert(line)
 
 				self.m_mainTextBox2 = newMainTextBox
+				self.useLineConvert = False
 
 		mainTextBoxList = list(self.m_mainTextBox2)
 
+		
 		if self.m_placeInList < len(mainTextBoxList):
-			self.m_incompleteTextBox += mainTextBoxList[self.m_placeInList]
+			if len(self.m_mainTextBox2) < self.m_placeInList:
+				self.m_incompleteTextBox = ""
+				for i in range(0, self.m_placeInList):
+					self.m_incompleteTextBox += mainTextBoxList[i]
+			else:
+				self.m_incompleteTextBox += mainTextBoxList[self.m_placeInList]
 			self.m_placeInList += 1
+		'''
 
-		self.m_screen.addstr(l, 0, self.m_incompleteTextBox)
+		if self.m_compareTextBoxList != self.m_mainTextBoxList:
+			self.m_mainTextBox = ""
+			self.m_compareTextBoxList = self.m_mainTextBoxList
+			self.m_mainTextBox2 = ""
+
+
+		for item in self.m_mainTextBoxList:
+			if item not in self.m_mainTextBox:
+				self.m_mainTextBox += ("%s\n") % item
+
+		if self.useLineConvert == True:
+			newMainTextBox = ""
+			for line in self.m_mainTextBox.split('\n'):
+				if line != "" and line != "\n" and line != " ":
+					newMainTextBox += "%s\n" % self.LineConvert(line)
+
+				self.m_mainTextBox2 = newMainTextBox
+		'''
+
+		if self.m_vorCmd != None:
+			self.m_screen.addstr(l, 0, self.m_incompleteTextBox)
 		
 		if(self.m_vorCmd != None):
 			self.m_screen.addstr(self.BUFFER_Y -1, 0, self.m_vorCmd)

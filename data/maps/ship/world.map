@@ -2,6 +2,6 @@ WORLD: "Ship"
 {
 	space_description="A ship."
 	landing_description="You enter your ship."
-	location=0,0
+	location=0,1
 	music="41_Starship_Bridge.wav"
 }

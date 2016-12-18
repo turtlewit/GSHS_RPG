@@ -24,8 +24,9 @@ class Input:
 				Input.char = currentCharacter
 				if Input.takeTextInput:
 					if currentCharacter == ord('\n'):
-						Input.commandHistory.insert(0,Input.command)
-						Input.command = Input.unf_command
+						if len(Input.unf_command.split()) > 0:
+							Input.commandHistory.insert(0,Input.command)
+							Input.command = Input.unf_command
 						renderer.m_cmd = ""
 						Input.unf_command = ""
 

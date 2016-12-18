@@ -1,0 +1,32 @@
+WORLD: "Tutorial"
+{
+	space_description="This doesn't really matter in this case, I don't think. If it does, I'll change this."
+	landing_description="See: Above."
+	location=0,0
+	music="waterworld.wav"
+}
+TILE: "Northernmost Walkway Tile"
+{
+	parent="Tutorial"
+	description="You are standing on a white tiled walkway, surrounded by void. Every object present is brightly illuminated from every angle, creating a distinctly realistic but artificial picture. The walkway, only about 2 meters wide, continues straight south, and stops abruptly 1 meter to the north. There are various signposts dotting the path every few meters."
+	move_north_message="A void encompasses every direction but south. There is a light force preventing you from stepping outside the walkway."
+	move_east_message="A void encompasses every direction but south. There is a light force preventing you from stepping outside the walkway."
+	move_west_message="A void encompasses every direction but south. There is a light force preventing you from stepping outside the walkway."
+	location=0,0
+}
+TILE: "Walkway"
+{
+	parent="Tutorial"
+	description="The walkway continues to the north and south."
+	location=0,-1
+	move_east_message="A void encompasses every direction but north and south. There is a light force preventing you from stepping outside the walkway."
+	move_west_message="A void encompasses every direction but north and south. There is a light force preventing you from stepping outside the walkway."
+}
+TILE: "Walkway"
+{
+	parent="Tutorial"
+	description="The walkway continues to the north and south."
+	location=0,-2
+	move_east_message="A void encompasses every direction but north and south. There is a light force preventing you from stepping outside the walkway."
+	move_west_message="A void encompasses every direction but north and south. There is a light force preventing you from stepping outside the walkway."
+}

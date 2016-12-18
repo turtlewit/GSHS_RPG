@@ -102,8 +102,8 @@ class Audio:
 		# 		pygame.mixer.music.stop()
 
 		if self.m_currentSongPlayObject:
-			self.self.m_currentSongPlayObject.stop()
-			self.self.m_currentSongPlayObject = None
+			self.m_currentSongPlayObject.stop()
+			self.m_currentSongPlayObject = None
 
 		self.m_currentsong = None
 
