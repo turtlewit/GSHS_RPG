@@ -7,13 +7,15 @@ class Clock:
 	def __init__(self):
 		self.time1 = time.time()
 
-	def tick(self, fps):
+	def Tick(self, fps):
 		frametime = 1/fps
 		currentTime = time.time()
 		while (currentTime - self.time1) < frametime:
 			currentTime = time.time()
 		self.time1 = time.time()
 
+	def DeltaTime(self):
+		return self.time1 - time.time()
 
 class Renderer:
 
@@ -47,7 +49,7 @@ class Renderer:
 
 		self.useLineConvert = True
 
-		self.tickClock = Clock()
+		self.m_clock = Clock()
 
 		self.m_renderObjects = []		#Typical object: [y, x, text]
 
@@ -77,7 +79,7 @@ class Renderer:
 
 	def Render(self):
 
-		self.tickClock.tick(120)
+		self.m_clock.Tick(120)
 
 		#self.Cleanup()
 		self.m_screen.clear()
