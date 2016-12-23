@@ -3,7 +3,6 @@ from AdventureEngine.components.world import Tile, World
 from AdventureEngine.CoreEngine.input import Input
 from src.createmap import CreateMap
 import os
-import pygame.mixer
 import curses
 
 class Player(GameComponent):
