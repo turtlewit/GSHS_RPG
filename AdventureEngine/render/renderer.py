@@ -1,7 +1,18 @@
 import curses
 import sys
 import os
-import pygame.time
+import time
+
+class Clock:
+	def __init__(self):
+		self.time1 = time.time()
+
+	def tick(self, fps):
+		frametime = 1/fps
+		currentTime = time.time()
+		while (currentTime - self.time1) < frametime:
+			currentTime = time.time()
+		self.time1 = time.time()
 
 
 class Renderer:
@@ -36,7 +47,7 @@ class Renderer:
 
 		self.useLineConvert = True
 
-		self.tickClock = pygame.time.Clock()
+		self.tickClock = Clock()
 
 		self.m_renderObjects = []		#Typical object: [y, x, text]
 
