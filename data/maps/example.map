@@ -3,7 +3,6 @@ WORLD: "Example"
 	space_description="A gigantic lump of nothing too interesting."
 	landing_description="Descending onto the planet, you feel somewhat proud of your accurate observational skills."
 	location=0,2
-	music="rush-la-villa-strangiato.wav"
 }
 TILE: "Pale Orange Landscape"
 {
