@@ -84,6 +84,6 @@ class Audio:
 			self.m_currentSongPlayObject.stop()
 			self.m_currentSongPlayObject = None
 
-		self.m_currentsong = None
+		self.m_currentSong = None
 
 
