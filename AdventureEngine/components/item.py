@@ -21,6 +21,7 @@
 This class describes the basic definition of an item.
 """
 from AdventureEngine.components.gamecomponent import GameComponent
+from AdventureEngine.CoreEngine.input import Input
 
 class Item(GameComponent):
 
@@ -42,7 +43,11 @@ class Item(GameComponent):
 			self.m_active = True
 		else:
 			self.m_active = False
-		if self.m_enabled and self.m_active:
+		if self.m_enabled and self.m_active and self.m_parent.m_engine.m_game.GetRootObject().stctrl.GetState().m_name == "explore":
+			if type(Input().command) is str:
+				if Input.command.lower() in ['inspect %s' % self.m_name]:
+					self.m_parent.m_engine.m_game.GetRootObject().stctrl.GetState().ClearText()
+					self.m_parent.m_engine.m_game.GetRootObject().stctrl.GetState().AddText(self.m_inspectDescription, 5)
 			self.Update2()
 
 	def Update2(self):

@@ -31,6 +31,8 @@ class SignPost(TextItem):
 		self.m_groundDescription = groundDescription
 		self.m_inspectDescription = inspectDescription
 
+		self.printed = False
+
 	def Update2(self):
 		if self.canBeDestroyed:
 			if Input.command:
@@ -42,5 +44,7 @@ class SignPost(TextItem):
 
 					if Input.command.lower() == "clear %s" % self.m_name and self.destroyed:
 						self.m_enabled = False
+
+		self.m_parent.m_engine.m_game.GetRootObject().stctrl.GetState().AddText("\n%s" % self.m_groundDescription, 4)
 
 			

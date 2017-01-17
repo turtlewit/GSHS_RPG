@@ -25,6 +25,7 @@ class GameObject:
 		self.m_parent = None
 		self.m_engine = None
 		self.m_renderer = None
+		self.m_game = None
 
 	def AddComponent(self, component):
 		self.m_components.append(component)
@@ -36,6 +37,7 @@ class GameObject:
 		self.m_children.append(child)
 		child.m_engine = self.m_engine
 		child.m_renderer = self.m_renderer
+		child.m_game = self.m_game
 		child.m_parent = self
 
 	def Update(self):

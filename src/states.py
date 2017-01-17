@@ -24,11 +24,8 @@ class StateController(GameComponent):
 
 	def __init__(self):
 		GameComponent.__init__(self)
-
 		self.m_stateList = []
-
 		self.m_currentState = None
-
 		self.m_type = "stctrl"
 
 	def ChangeState(self, nameOfState):
@@ -48,26 +45,18 @@ class DefaultState(State):
 	def __init__(self, controller):
 		State.__init__(self, controller, "default")
 		self.renderer = None
-		#self.m_init2HasRun = False
 		self.textobject1 = open(os.path.join('data', 'assets', 'art', 'Verloren.txt')).read()
 		self.textobject2 = "Press Any Key To Continue"
-
 		self.stuffToGive = []
-
 		self.timeticks = 0
 		self.textobject2IsIn = False
-
-
 
 	def Init2(self):
 		self.m_parent.m_renderer.m_vorCmd = None
 		Input.takeTextInput = False
 		if self.renderer == None:
 			self.renderer = self.m_parent.m_renderer
-		'''
-		textpos1 = int(self.renderer.BUFFER_X / 2) - int(len(self.textobject1) / 2) 
-		textpos2 = int(self.renderer.BUFFER_Y / 3)
-		'''
+
 		self.stuffToGive.append([0, 0, self.textobject1])
 
 		self.object2 = [int(self.renderer.BUFFER_Y / 3) * 2, int(self.renderer.BUFFER_X / 2) - int(len(self.textobject2) / 2), self.textobject2]
@@ -83,6 +72,7 @@ class DefaultState(State):
 			self.stuffToGive.remove(self.object2)
 		except:
 			pass
+			
 		if self.textobject2IsIn:
 			self.stuffToGive.append(self.object2)
 
@@ -107,69 +97,40 @@ class ExplorationState(State):
 		self.m_mainTextBox = ""
 		Input.takeTextInput = True
 		self.m_parent.m_renderer.m_vorCmd = ">"
-		self.thingsToPrint = []
-		self.extraToPrint = []
-
-
-		self.checkForItems = True
+		self.printDict = {}
+		self.tempDict = {}
+		self.clear = False
 
 	def Update2(self):
+		alist = list(self.printDict.keys())
+		alist.sort()
+		for order in alist:
+			for textItem in self.printDict[order]:
+				self.m_parent.m_renderer.m_mainTextBoxList.append("%s\n" % textItem)
 
-		
-		if self.m_parent.m_player.thingToPrint not in self.m_parent.m_renderer.m_mainTextBoxList and len(self.m_parent.m_player.thingToPrint) > 0:
-			for i in self.m_parent.m_player.thingToPrint:
-				if i not in self.m_parent.m_renderer.m_mainTextBoxList and i != "":
-					self.m_parent.m_renderer.m_mainTextBoxList.append(i)
+		if self.clear:
+			self.printDict = {}
+			self.clear = False
+			self.printDict = self.tempDict
 
-		if self.checkForItems:
-			'''
-			if self.m_parent.m_transform == self.m_parent.m_player.m_parent.m_transform:
-				for comp in self.m_parent.m_components:
-					if comp.m_type == "item":
-						if comp.m_enabled:
-							self.m_parent.m_renderer.m_mainTextBoxList.append(comp.m_groundDescription)
-			'''
-			for child in self.m_parent.m_player.world.m_parent.m_children:
-				if child.m_transform == self.m_parent.m_player.m_parent.m_transform:
-					for comp in child.m_components:
-						if comp.m_type == "item":
-							if comp.m_enabled:
-								self.m_parent.m_renderer.m_mainTextBoxList.append(comp.m_groundDescription)
+	def AddText(self, text, order = 3):
+		# Default Text (Area descriptions, etc. go on layer 3. )
+		if self.clear == False:
+			try:
+				if text not in self.printDict[order]:
+					self.printDict[order].append(text)
+			except:
+				self.printDict[order] = [text]
+		else:
+			try:
+				if text not in self.tempDict[order]:
+					self.tempDict[order].append(text)
+			except:
+				self.tempDict[order] = [text]
 
-
-			self.m_parent.m_player.changeTile = False
-
-		'''
-		for i in self.thingsToPrint:
-			if i not in self.m_parent.m_renderer.m_mainTextBoxList:
-				self.m_parent.m_renderer.m_mainTextBoxList.append("%s\n" % i)
-		'''
-		for i in self.extraToPrint:
-			if i not in self.m_parent.m_renderer.m_mainTextBoxList:
-				self.m_parent.m_renderer.m_mainTextBoxList.append("%s\n" % i)
-
-
-		self.checkForItems = False
-
-		if Input.command:
-			self.m_parent.m_renderer.m_mainTextBoxList = []
-			self.extraToPrint = []
-			self.checkForItems = True
-			if type(Input().command) is str:
-				if Input.command.lower().split()[0] == "inspect" and len(Input.command.lower().split()) == 2:
-					'''
-					if self.m_parent.m_transform == self.m_parent.m_player.m_parent.m_transform:
-						for comp in self.m_parent.m_components:
-							if comp.m_type == "item":
-								if comp.m_enabled and comp.m_name == Input.command.lower().split()[1]:
-									self.extraToPrint.append(comp.m_inspectDescription)
-					'''
-					for child in self.m_parent.m_player.world.m_parent.m_children:
-						if child.m_transform == self.m_parent.m_player.m_parent.m_transform:
-							for comp in child.m_components:
-								if comp.m_type == "item":
-									if comp.m_enabled and comp.m_name == Input.command.lower().split()[1]:
-										self.extraToPrint.append(comp.m_inspectDescription)
+	def ClearText(self):
+		self.clear = True
+		self.tempDict = {}
 
 
 class MapState(State):

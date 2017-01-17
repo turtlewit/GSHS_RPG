@@ -107,6 +107,13 @@ class Renderer:
 			self.m_screen.addstr(l,0,line)
 			l+=1
 
+		if self.m_compareTextBoxList != self.m_mainTextBoxList:
+			self.m_placeInList = 0
+			self.m_compareTextBoxList = self.m_mainTextBoxList
+			self.m_mainTextBox = ""
+			self.m_incompleteTextBox = ""
+
+		'''
 		if self.m_compareTextBoxList != self.m_mainTextBoxList and len(self.m_mainTextBoxList) > 0:
 			self.useLineConvert = True
 			if len(self.m_compareTextBoxList) < len(self.m_mainTextBoxList):
@@ -131,7 +138,7 @@ class Renderer:
 				self.m_compareTextBoxList = self.m_mainTextBoxList
 				self.m_mainTextBox = ""
 				self.m_incompleteTextBox = ""
-			'''
+
 			elif len(self.m_compareTextBoxList) > len(self.m_mainTextBoxList):
 				numInCompTextBox = 0
 				for item in self.m_mainTextBoxList:
@@ -155,12 +162,11 @@ class Renderer:
 					self.m_compareTextBoxList = self.m_mainTextBoxList
 					self.m_mainTextBox = ""
 					self.m_incompleteTextBox = ""
-			'''
+		'''
 			
 
 		for item in self.m_mainTextBoxList:
-			if item not in self.m_mainTextBox:
-				self.m_mainTextBox += ("%s\n") % item
+			self.m_mainTextBox += ("%s\n") % item
 
 		if self.useLineConvert == True:
 			if len(self.m_mainTextBox.split()) > 0:
@@ -170,7 +176,6 @@ class Renderer:
 						newMainTextBox += "%s\n" % self.LineConvert(line)
 
 				self.m_mainTextBox2 = newMainTextBox
-				self.useLineConvert = False
 
 		mainTextBoxList = list(self.m_mainTextBox2)
 
@@ -216,6 +221,9 @@ class Renderer:
 			self.m_screen.addstr(obj[0], obj[1], obj[2])
 
 		self.m_screen.refresh()
+
+		self.m_mainTextBoxList = []
+		self.m_mainTextBox = ""
 
 		"""
 		self.m_mainTextBox = ""
