@@ -34,12 +34,17 @@ class StateController(GameComponent):
 				self.m_currentState = state
 				self.m_currentState.m_init2HasRun = False
 
-	def GetState(self):
-		if self.m_currentState:
-			return self.m_currentState
+	def GetState(self, name = None):
+		if name:
+			for state in self.m_stateList:
+				if state.m_name == name:
+					return state
 		else:
-			self.ChangeState("default")
-			return self.m_currentState
+			if self.m_currentState:
+				return self.m_currentState
+			else:
+				self.ChangeState("default")
+				return self.m_currentState
 
 class DefaultState(State):
 	def __init__(self, controller):
