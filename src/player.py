@@ -154,4 +154,4 @@ class Player(GameComponent):
 					self.thingToPrint.append(self.currentTile.m_description)
 			
 			for textItem in self.thingToPrint:
-				self.m_parent.m_engine.m_game.m_root.stctrl.GetState().AddText(textItem)
+				self.m_parent.m_engine.m_game.m_root.stctrl.GetState("explore").AddText(textItem)
