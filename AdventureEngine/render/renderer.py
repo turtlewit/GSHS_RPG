@@ -108,11 +108,55 @@ class Renderer:
 			l+=1
 
 		if self.m_compareTextBoxList != self.m_mainTextBoxList:
-			self.m_placeInList = 0
-			self.m_compareTextBoxList = self.m_mainTextBoxList
-			self.m_mainTextBox = ""
-			self.m_incompleteTextBox = ""
+			if len(''.join(self.m_compareTextBoxList)) <= len(''.join(self.m_mainTextBoxList)):	#Adding
+				good = True
+				for i in range (0, len(''.join(self.m_compareTextBoxList))):
+					if ''.join(self.m_compareTextBoxList)[i] != ''.join(self.m_mainTextBoxList)[i]:
+						good = False
+						break
+				if good:
+					if len(''.join(self.m_compareTextBoxList)) > 0:
+						self.m_placeInList = len(''.join(self.m_compareTextBoxList)) - 1
+					else:
+						self.m_placeInList = 0
+					# self.m_incompleteTextBox = self.m_mainTextBox2
+					self.m_compareTextBoxList = self.m_mainTextBoxList
+					self.m_mainTextBox = ""
+				else:
+					self.m_placeInList = 0
+					self.m_compareTextBoxList = self.m_mainTextBoxList
+					self.m_mainTextBox = ""
+					self.m_incompleteTextBox = ""
 
+			elif len(''.join(self.m_compareTextBoxList)) > len(''.join(self.m_mainTextBoxList)):	#Subtracting
+				good = True
+
+				for i in range (0, len(''.join(self.m_mainTextBoxList))):
+					# print(''.join(self.m_compareTextBoxList), ''.join(self.m_mainTextBoxList)[i])
+					if ''.join(self.m_compareTextBoxList)[i] != ''.join(self.m_mainTextBoxList)[i]:
+						good = False
+
+				if not good:
+					'''
+					common = ""
+					for x in range (0, i + 1):
+						common += self.m_compareTextBoxList[x]
+					self.m_placeInList = len(common)
+					'''
+					self.m_placeInList = 0
+					self.m_compareTextBoxList = self.m_mainTextBoxList
+					self.m_mainTextBox = ""
+					self.m_incompleteTextBox = ""
+				else:
+					self.m_mainTextBox = ""
+					self.m_compareTextBoxList = self.m_mainTextBoxList
+
+			else:
+				self.m_placeInList = 0
+				self.m_compareTextBoxList = self.m_mainTextBoxList
+				self.m_mainTextBox = ""
+				self.m_incompleteTextBox = ""
+				
 		'''
 		if self.m_compareTextBoxList != self.m_mainTextBoxList and len(self.m_mainTextBoxList) > 0:
 			self.useLineConvert = True
@@ -179,8 +223,8 @@ class Renderer:
 
 		mainTextBoxList = list(self.m_mainTextBox2)
 
-		
 		if self.m_placeInList < len(mainTextBoxList):
+
 			if len(self.m_mainTextBox2) < self.m_placeInList:
 				self.m_incompleteTextBox = ""
 				for i in range(0, self.m_placeInList):
@@ -188,6 +232,11 @@ class Renderer:
 			else:
 				self.m_incompleteTextBox += mainTextBoxList[self.m_placeInList]
 			self.m_placeInList += 1
+		
+		elif self.m_placeInList > len(mainTextBoxList):
+			self.m_incompleteTextBox = self.m_incompleteTextBox[:-1]
+			self.m_placeInList -= 1
+		
 		'''
 
 		if self.m_compareTextBoxList != self.m_mainTextBoxList:
