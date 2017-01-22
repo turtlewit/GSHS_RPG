@@ -16,7 +16,7 @@
 # along with Verloren (GSHS_RPG).  If not, see <http://www.gnu.org/licenses/>. #
 #------------------------------------------------------------------------------#
 
-from AdventureEngine.components.gamecomponent import GameComponent 
+from AdventureEngine.components.gamecomponent import GameComponent
 from AdventureEngine.components.state import State
 from AdventureEngine.CoreEngine.input import Input
 import os
@@ -77,7 +77,7 @@ class DefaultState(State):
 			self.stuffToGive.remove(self.object2)
 		except:
 			pass
-			
+
 		if self.textobject2IsIn:
 			self.stuffToGive.append(self.object2)
 
@@ -85,7 +85,7 @@ class DefaultState(State):
 			if thing not in self.renderer.m_renderObjects:
 				self.renderer.m_renderObjects.append(thing)
 
-		
+
 
 		self.timeticks +=1
 
@@ -105,7 +105,7 @@ class ExplorationState(State):
 		#self.m_mainTextBox = ""
 		Input.takeTextInput = True
 		self.m_parent.m_renderer.m_vorCmd = ">"
-		
+
 
 	def Update2(self):
 		alist = list(self.printDict.keys())

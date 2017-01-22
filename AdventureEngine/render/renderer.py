@@ -41,9 +41,13 @@ class Renderer:
 	BUFFER_X = 80
 
 	def __init__(self, name):
+		if sys.platform == 'win32':
+			os.system("title %s" % name)
+
 		self.m_screen = curses.initscr()
 
-		os.system("title %s" % name)
+		if sys.platform == 'linux':
+			curses.resizeterm(25, 80)
 
 		curses.noecho()
 		curses.cbreak()
@@ -144,7 +148,7 @@ class Renderer:
 					self.m_placeInList = 0
 					self.m_compareTextBoxList = self.m_mainTextBoxList
 					self.m_mainTextBox = ""
-					self.m_incompleteTextBox = ""			
+					self.m_incompleteTextBox = ""
 
 		for item in self.m_mainTextBoxList:
 			self.m_mainTextBox += ("%s\n") % item
@@ -169,15 +173,15 @@ class Renderer:
 			else:
 				self.m_incompleteTextBox += mainTextBoxList[self.m_placeInList]
 			self.m_placeInList += 1
-		
+
 		elif self.m_placeInList > len(mainTextBoxList):
 			self.m_incompleteTextBox = self.m_incompleteTextBox[:-1]
 			self.m_placeInList -= 1
-		
+
 		if self.m_vorCmd != None:
 			self.m_screen.addstr(l, 0, self.m_incompleteTextBox)
 			self.m_screen.addstr(self.BUFFER_Y -1, 0, self.m_vorCmd)
-		
+
 		self.m_screen.addstr(self.m_cmd)
 
 		for obj in self.m_renderObjects:
@@ -186,7 +190,7 @@ class Renderer:
 		self.m_screen.refresh()
 
 		self.m_mainTextBoxList = []
-		self.m_mainTextBox = ""	
+		self.m_mainTextBox = ""
 
 	def Cleanup(self):
 		curses.endwin()

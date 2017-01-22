@@ -37,9 +37,10 @@ class Input:
 			currentCharacter = renderer.m_screen.getch()
 
 
-			
+
 			if currentCharacter != -1:
-				Input.char = currentCharacter
+				if currentCharacter != curses.KEY_RESIZE:
+					Input.char = currentCharacter
 				if Input.takeTextInput:
 					if currentCharacter == ord('\n'):
 						if len(Input.unf_command.split()) > 0:
@@ -49,7 +50,7 @@ class Input:
 						Input.unf_command = ""
 
 					if sys.platform == 'linux':
-						if currentCharacter == 127:
+						if currentCharacter == 127 or currentCharacter == curses.KEY_BACKSPACE:
 							renderer.m_cmd = renderer.m_cmd[:-1]
 							Input.unf_command = Input.unf_command[:-1]
 					else:
@@ -65,5 +66,3 @@ class Input:
 
 					if currentCharacter in [curses.KEY_UP, curses.KEY_DOWN, curses.KEY_LEFT, curses.KEY_RIGHT]:
 						Input.command = currentCharacter
-
-
