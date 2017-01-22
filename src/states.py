@@ -95,16 +95,17 @@ class DefaultState(State):
 class ExplorationState(State):
 	def __init__(self, controller):
 		State.__init__(self, controller, "explore")
-
-	def Init2(self):
-		self.m_parent.m_renderer.m_renderObjects = []
-		self.m_parent.m_renderer.m_mainTextBoxList = []
-		self.m_mainTextBox = ""
-		Input.takeTextInput = True
-		self.m_parent.m_renderer.m_vorCmd = ">"
 		self.printDict = {}
 		self.tempDict = {}
 		self.clear = False
+
+	def Init2(self):
+		self.m_parent.m_renderer.m_renderObjects = []
+		#self.m_parent.m_renderer.m_mainTextBoxList = []
+		#self.m_mainTextBox = ""
+		Input.takeTextInput = True
+		self.m_parent.m_renderer.m_vorCmd = ">"
+		
 
 	def Update2(self):
 		alist = list(self.printDict.keys())

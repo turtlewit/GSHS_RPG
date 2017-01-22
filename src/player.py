@@ -80,11 +80,12 @@ class Player(GameComponent):
 	def Update(self):
 		if self.m_parent.m_engine.m_game.m_root.stctrl.GetState().m_name == "explore":
 			if Input().command:
-				self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
+				
 				self.thingToPrint = []
 				self.printDescription = True
 
 				if type(Input().command) is not str:
+					self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
 					if Input().command in [curses.KEY_UP, curses.KEY_DOWN, curses.KEY_LEFT, curses.KEY_RIGHT]:
 						directiondict = {curses.KEY_UP: 'n', curses.KEY_DOWN: 's', curses.KEY_LEFT: 'w', curses.KEY_RIGHT: 'e'}
 						self.Move(directiondict[Input().command])
@@ -92,6 +93,7 @@ class Player(GameComponent):
 					if len(Input().command.lower().split()) > 0:
 
 						if Input().command.lower().split()[0] in ['move', 'go', 'walk', 'n', 's', 'e', 'w']:
+							self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
 							try:
 								direction = Input().command.lower().split()[1]
 							except:
@@ -109,10 +111,12 @@ class Player(GameComponent):
 						self.m_parent.m_engine.m_game.m_root.stctrl.ChangeState("map")
 
 					elif Input().command.lower() in ['down']:
+						self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
 						self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] + 1)
 						self.m_parent.m_transform = (0,0)
 
 					elif Input().command.lower() in ['up']:
+						self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
 						self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] - 1)
 						self.m_parent.m_transform = (0,0)
 
