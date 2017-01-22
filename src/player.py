@@ -78,94 +78,84 @@ class Player(GameComponent):
 		self.mapText = CreateMap.Create(self.currentTile.m_parent.m_parent, self)
 
 	def Update(self):
-
-		if Input().command:
-			self.thingToPrint = []
-			self.printDescription = True
-
-			if type(Input().command) is not str:
-				if Input().command in [curses.KEY_UP, curses.KEY_DOWN, curses.KEY_LEFT, curses.KEY_RIGHT]:
-					directiondict = {curses.KEY_UP: 'n', curses.KEY_DOWN: 's', curses.KEY_LEFT: 'w', curses.KEY_RIGHT: 'e'}
-					self.Move(directiondict[Input().command])
-			else:
-				if len(Input().command.lower().split()) > 0:
-
-					if Input().command.lower().split()[0] in ['move', 'go', 'walk', 'n', 's', 'e', 'w']:
-						try:
-							direction = Input().command.lower().split()[1]
-						except:
-							try:
-								direction = Input().command.lower().split()[0]
-							except:
-								direction = None
-
-						if direction:
-							self.Move(direction)
-				
-
-
-				if Input().command.lower() in ['map']:
-					self.m_parent.m_engine.m_game.m_root.stctrl.ChangeState("map")
-
-				elif Input().command.lower() in ['down']:
-					self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] + 1)
-					self.m_parent.m_transform = (0,0)
-
-				elif Input().command.lower() in ['up']:
-					self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] - 1)
-					self.m_parent.m_transform = (0,0)
-
-				elif Input().command.lower() in ['quit', 'exit']:
-					self.m_parent.m_engine.m_isRunning = False
-
-		
-
-
-		for child1 in self.m_parent.m_engine.m_game.m_root.m_children:
-			if child1.m_transform == self.m_spaceTransform and child1.m_components[0].m_type == "world":
-				for child2 in child1.m_children:
-					if child2.m_transform == self.m_parent.m_transform and child2.m_components[0].m_type == "tile":
-						self.currentTile = child2.m_components[0]
-					else:
-						#self.thingToPrint.append(child2.m_components[0].m_name)
-						pass
-
-		if self.world != self.currentTile.m_parent.m_parent.m_components[0]:
-			self.world = self.currentTile.m_parent.m_parent.m_components[0]
-
-		self.worldDifference = None
-		try:
-			if self.oldWorld != self.world:
-				self.worldDifference = True
-			else:
-				self.worldDifference = False
-		except:
-			self.worldDifference = True
-		if self.worldDifference == True:
-			self.oldTile = self.currentTile
-			self.oldWorld = self.world
-			self.mapText = CreateMap.Create(self.world.m_parent, self)
-
-			
-		# else:
-		# 	self.oldTile = self.currentTile
-		# 	if self.currentTile.m_parent.m_parent.m_components[0].m_name == "Example":
-		# 		pygame.mixer.music.load(os.path.join('data', 'audio', 'rush-la-villa-strangiato.mp3'))
-		# 		pygame.mixer.music.play()
-		# 	elif self.currentTile.m_parent.m_parent.m_components[0].m_name == "Ship":
-		# 		pygame.mixer.music.load(os.path.join('data', 'audio', '41_Starship_Bridge.mp3'))
-		# 		pygame.mixer.music.play()
-
-		if self.currentTile:
-			if self.currentTile.m_description not in self.thingToPrint and self.printDescription == True:
-				#self.m_parent.m_renderer.m_mainTextBox = ""
-				self.thingToPrint.append(self.currentTile.m_name)
-				self.thingToPrint.append(self.currentTile.m_description)
-
-		'''
 		if self.m_parent.m_engine.m_game.m_root.stctrl.GetState().m_name == "explore":
-			for i in self.thingToPrint:
-				if i not in self.m_parent.m_renderer.m_mainTextBox:
-					self.m_parent.m_renderer.m_mainTextBox += ("%s\n" % i)
-		'''
+			if Input().command:
+				
+				self.thingToPrint = []
+				self.printDescription = True
+
+				if type(Input().command) is not str:
+					self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
+					if Input().command in [curses.KEY_UP, curses.KEY_DOWN, curses.KEY_LEFT, curses.KEY_RIGHT]:
+						directiondict = {curses.KEY_UP: 'n', curses.KEY_DOWN: 's', curses.KEY_LEFT: 'w', curses.KEY_RIGHT: 'e'}
+						self.Move(directiondict[Input().command])
+				else:
+					if len(Input().command.lower().split()) > 0:
+
+						if Input().command.lower().split()[0] in ['move', 'go', 'walk', 'n', 's', 'e', 'w']:
+							self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
+							try:
+								direction = Input().command.lower().split()[1]
+							except:
+								try:
+									direction = Input().command.lower().split()[0]
+								except:
+									direction = None
+
+							if direction:
+								self.Move(direction)
+					
+
+
+					if Input().command.lower() in ['map']:
+						self.m_parent.m_engine.m_game.m_root.stctrl.ChangeState("map")
+
+					elif Input().command.lower() in ['down']:
+						self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
+						self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] + 1)
+						self.m_parent.m_transform = (0,0)
+
+					elif Input().command.lower() in ['up']:
+						self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
+						self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] - 1)
+						self.m_parent.m_transform = (0,0)
+
+					elif Input().command.lower() in ['quit', 'exit']:
+						self.m_parent.m_engine.m_isRunning = False
+
 			
+
+
+			for child1 in self.m_parent.m_engine.m_game.m_root.m_children:
+				if child1.m_transform == self.m_spaceTransform and child1.m_components[0].m_type == "world":
+					for child2 in child1.m_children:
+						if child2.m_transform == self.m_parent.m_transform and child2.m_components[0].m_type == "tile":
+							self.currentTile = child2.m_components[0]
+							
+						else:
+							pass
+
+			if self.world != self.currentTile.m_parent.m_parent.m_components[0]:
+				self.world = self.currentTile.m_parent.m_parent.m_components[0]
+
+			self.worldDifference = None
+			try:
+				if self.oldWorld != self.world:
+					self.worldDifference = True
+				else:
+					self.worldDifference = False
+			except:
+				self.worldDifference = True
+			if self.worldDifference == True:
+				self.oldTile = self.currentTile
+				self.oldWorld = self.world
+				self.mapText = CreateMap.Create(self.world.m_parent, self)
+
+			if self.currentTile:
+				if self.currentTile.m_description not in self.thingToPrint and self.printDescription == True:
+					#self.m_parent.m_renderer.m_mainTextBox = ""
+					self.thingToPrint.append(self.currentTile.m_name)
+					self.thingToPrint.append(self.currentTile.m_description)
+			
+			for textItem in self.thingToPrint:
+				self.m_parent.m_engine.m_game.m_root.stctrl.GetState("explore").AddText(textItem)

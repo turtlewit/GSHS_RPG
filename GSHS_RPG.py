@@ -51,6 +51,7 @@ class GSHS_RPG(Game):
 		root.AddComponent(ExplorationState(stctrl))
 		self.AddObject(root)
 		self.m_root = root
+		self.GetRootObject().m_game = self
 		newmap = load.Map()
 
 		pc = GameObject()
