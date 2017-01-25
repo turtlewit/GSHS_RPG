@@ -8,3 +8,4 @@ cxfreeze
 *.db
 *.log
 *.mp3
+.build-tools.cson
