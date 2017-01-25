@@ -35,19 +35,23 @@ class Item(GameComponent):
 		self.m_inspectDescription = None
 
 		self.m_canBePickedUp = False
+		self.m_isPickedUp = False
 		self.m_enabled = True
 		self.m_active = False
 
 	def Update(self):
-		if self.m_parent.m_engine.m_game.m_root.m_player.m_parent.m_transform == self.m_parent.m_transform and self.m_parent.m_engine.m_game.m_root.m_player.m_spaceTransform == self.m_parent.m_parent.m_parent.m_transform:
-			self.m_active = True
-		else:
+		if self.m_isPickedUp:
 			self.m_active = False
-		if self.m_enabled and self.m_active and self.m_parent.m_engine.m_game.GetRootObject().stctrl.GetState().m_name == "explore":
+		else:
+			if self.GetPlayer().GetPosition() == self.GetPosition() and self.GetPlayer().GetSpacePosition() == self.m_parent.m_parent.m_parent.m_transform:
+				self.m_active = True
+			else:
+				self.m_active = False
+		if self.m_enabled and self.m_active and self.GetRoot().stctrl.GetState().m_name == "explore":
 			if type(Input().command) is str:
 				if Input.command.lower() in ['inspect %s' % self.m_name]:
-					self.m_parent.m_engine.m_game.GetRootObject().stctrl.GetState().ClearText()
-					self.m_parent.m_engine.m_game.GetRootObject().stctrl.GetState().AddText(self.m_inspectDescription, 5)
+					self.GetRoot().stctrl.GetState().ClearText()
+					self.GetRoot().stctrl.GetState().AddText(self.m_inspectDescription, 5)
 			self.Update2()
 
 	def Update2(self):
