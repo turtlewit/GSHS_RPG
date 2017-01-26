@@ -173,11 +173,13 @@ class Player(GameComponent):
 					self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
 					self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] + 1)
 					self.m_parent.m_transform = (0,0)
+					self.GetCurrentTile()
 
 				elif Input().command.lower() in ['up']:
 					self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
 					self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] - 1)
 					self.m_parent.m_transform = (0,0)
+					self.GetCurrentTile()
 
 				elif Input().command.lower() in ['quit', 'exit']:
 					self.m_parent.m_engine.m_isRunning = False
