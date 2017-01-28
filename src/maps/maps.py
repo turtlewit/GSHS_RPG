@@ -21,6 +21,7 @@ import load
 from AdventureEngine.CoreEngine.gameobject import GameObject
 
 from src.items.signpost import SignPost
+from src.tilelock import TileLock
 
 import os
 
@@ -28,7 +29,7 @@ import os
 class MapDefs():
 
 	def __init__(self, engine):
-		self.MapsList = [TutorialMap(engine)]
+		self.MapsList = [TutorialMap(engine), ShipMap(engine)]
 		self.MapsList2 = []
 		for m in self.MapsList:
 			m.Load()
@@ -41,7 +42,7 @@ class MapDefs():
 class MapDef():
 
 	def __init__(self, engine):
-		self.MapFile = None
+		self.MapFile = []
 		self.Map = None
 		self.engine = engine
 
@@ -57,14 +58,36 @@ class MapDef():
 		pass
 
 	def Load(self):
-		self.Map = load.Map().LoadMap(self.MapFile)
+		for amap in self.MapFile:
+			self.Map = load.Map().LoadMap(amap)
 		self.LoadEntities()
+
+class ShipMap(MapDef):
+	def __init__(self, engine):
+		MapDef.__init__(self, engine)
+		self.MapFile = [os.path.join('data', 'maps', 'ship', 'world.map'), os.path.join('data', 'maps', 'ship', 'core.map'), os.path.join('data', 'maps', 'ship', 'flank.map'),
+			os.path.join('data', 'maps', 'ship', 'port.map'), os.path.join('data', 'maps', 'ship', 'starboard.map')]
+
+	class TileLockForward(TileLock):
+		def __init__(self):
+			TileLock.__init__(self)
+			self.m_tileLockedText = "The door south is locked."
+
+		def Conditions(self):
+			return True
+
+	def LoadEntities(self):
+		tl1g = GameObject()
+		tl1g.m_transform = (0,-1)
+		self.FindTileAtCoord((0,-1)).SetEngine(self.engine)
+		tl1g.AddComponent(self.TileLockForward())
+		self.FindTileAtCoord((0,-1)).AddChild(tl1g)
 
 class TutorialMap(MapDef):
 
 	def __init__(self, engine):
 		MapDef.__init__(self, engine)
-		self.MapFile = os.path.join('data', 'maps', 'tutorial.map')
+		self.MapFile.append(os.path.join('data', 'maps', 'tutorial.map'))
 
 	def LoadEntities(self):
 		gO = GameObject()
