@@ -49,7 +49,7 @@ class Input:
 						renderer.m_cmd = ""
 						Input.unf_command = ""
 
-					if sys.platform == 'linux' or sys.platform == 'linux2':
+					if sys.platform == 'linux' or sys.platform == 'linux2' or sys.platform == 'linux-armv7l':
 						if currentCharacter == 127 or currentCharacter == curses.KEY_BACKSPACE:
 							renderer.m_cmd = renderer.m_cmd[:-1]
 							Input.unf_command = Input.unf_command[:-1]
