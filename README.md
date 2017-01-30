@@ -1,5 +1,5 @@
-# GSHS_RPG
-GSHS_RPG, or otherwise called Verloren, is a text-based, turn-based RPG built 100% in Python. It runs natively in the terminal and can be run straight from Python or run from an executable. The game is currently in development by the GSHS Programming Class.
+# Verloren
+Verloren, or otherwise called by its working title GSHS_RPG, is a text-based, turn-based RPG built 100% in Python. It runs natively in the terminal and can be run straight from Python or run from an executable. The game is currently in development by the GSHS Programming Class.
 
 Dependencies:
 
