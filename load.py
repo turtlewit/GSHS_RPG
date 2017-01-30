@@ -28,10 +28,11 @@ import os
 
 
 class Map:
+	Worlds = []
+	mapFiles = []
 
 	def __init__(self):
-		self.Worlds = []
-		self.mapFiles = []
+		pass
 
 	def Walking(self,directory):
 		for root, dirs, files in os.walk(directory):
@@ -53,7 +54,7 @@ class Map:
 		map_file = open(os.path.join(map_file_name))
 		log_file.write("%s\n" % map_file_name)
 		possible_attributes = [
-				'space_description', 'landing_description', 'music', 
+				'space_description', 'landing_description', 'music',
 				'location', 'parent', 'description', 'move_east_message',
 				'move_west_message', 'move_north_message', 'move_south_message']
 
@@ -184,7 +185,7 @@ class Map:
 		log_file.write('\n')
 		log_file.write("\ndone")
 
-		return self.Worlds[0]
+		return self.Worlds[-1]
 
 
 	def LoadMapsInDirectory(self, directory, log_file):
@@ -197,7 +198,7 @@ class Map:
 				map_file = open(os.path.join(map_file_name))
 				log_file.write("%s\n" % map_file_name)
 				possible_attributes = [
-						'space_description', 'landing_description', 'music', 
+						'space_description', 'landing_description', 'music',
 						'location', 'parent', 'description', 'move_east_message',
 						'move_west_message', 'move_north_message', 'move_south_message']
 

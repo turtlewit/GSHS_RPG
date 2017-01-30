@@ -116,9 +116,7 @@ class Renderer:
 							good = False
 							break
 					if good:
-						if len(''.join(self.m_compareTextBoxList)) > 0:
-							self.m_placeInList = len(''.join(self.m_compareTextBoxList)) - 1
-						else:
+						if len(''.join(self.m_compareTextBoxList)) == 0:
 							self.m_placeInList = 0
 						self.m_compareTextBoxList = self.m_mainTextBoxList
 						self.m_mainTextBox = ""

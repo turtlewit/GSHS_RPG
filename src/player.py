@@ -61,7 +61,6 @@ class Player(GameComponent):
 			self.m_initHasRun = True
 
 		if self.m_parent.m_engine.m_game.m_root.stctrl.GetState().m_name == "explore":
-
 			self.HandleInput()
 
 			if self.world != self.currentTile.m_parent.m_parent.m_components[0]:
@@ -111,9 +110,18 @@ class Player(GameComponent):
 				x = -1
 
 		self.m_parent.m_transform = (self.m_parent.m_transform[0] + x, self.m_parent.m_transform[1] + y)
-		self.mapText = CreateMap.Create(self.currentTile.m_parent.m_parent, self)
 
 		self.GetCurrentTile()
+		for child in self.currentTile.m_parent.m_children:
+			for component in child.m_components:
+				if component.m_name == "Lock":
+					if component.IsTileLocked:
+						self.m_parent.m_transform = (self.m_parent.m_transform[0] - x, self.m_parent.m_transform[1] - y)
+						self.GetRoot().stctrl.GetState("explore").AddText(component.m_tileLockedText, 5)
+						self.GetCurrentTile()
+						break
+
+		self.mapText = CreateMap.Create(self.currentTile.m_parent.m_parent, self)
 
 	def SendText(self):
 		if self.currentTile:
