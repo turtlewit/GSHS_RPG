@@ -7,4 +7,4 @@ Dependencies:
 * SimpleAudio
 * Curses (comes with python, Windows requires [alternate version](http://www.lfd.uci.edu/~gohlke/pythonlibs/#curses))
 
-Tested on Windows and Linux. Mac should work fine.
+Tested on Windows, Linux, and Android. Mac should work fine.
