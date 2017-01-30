@@ -46,7 +46,7 @@ class Renderer:
 
 		self.m_screen = curses.initscr()
 
-		if sys.platform == 'linux':
+		if sys.platform == 'linux' or sys.platform == 'linux2':
 			curses.resizeterm(25, 80)
 
 		curses.noecho()
