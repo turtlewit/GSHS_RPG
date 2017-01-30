@@ -53,6 +53,10 @@ class Input:
 						if currentCharacter == 127 or currentCharacter == curses.KEY_BACKSPACE:
 							renderer.m_cmd = renderer.m_cmd[:-1]
 							Input.unf_command = Input.unf_command[:-1]
+					if sys.platform == 'linux2':
+						if currentCharacter == 67:
+							renderer.m_cmd = renderer.m_cmd[:-1]
+							Input.unf_command = Input.unf_command[:-1]
 					else:
 						if currentCharacter == 8:
 							renderer.m_cmd = renderer.m_cmd[:-1]
