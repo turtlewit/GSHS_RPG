@@ -104,19 +104,19 @@ else:
 			self.m_volume = 1.0
 
 		def LoadSound(self, name, file):
-			pass
+			return None
 
 		def LoadSong(self, name, file):
-			pass
+			return None
 
 		def StopPlayingSound(self, name, fadeout=False, fadeoutTime=1000):
-			pass
+			return None
 
 		def Panic(self):
-			pass
+			return None
 
 		def PlaySong(self, name, loops=-1, startTime = 0.0):
-			pass
+			return None
 
 		def StopMusic(self):
-			pass
+			return None
