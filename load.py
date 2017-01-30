@@ -185,7 +185,7 @@ class Map:
 		log_file.write('\n')
 		log_file.write("\ndone")
 
-		return self.Worlds[0]
+		return self.Worlds[-1]
 
 
 	def LoadMapsInDirectory(self, directory, log_file):

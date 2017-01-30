@@ -29,7 +29,7 @@ import os
 class MapDefs():
 
 	def __init__(self, engine):
-		self.MapsList = [TutorialMap(engine), ShipMap(engine)]
+		self.MapsList = [ShipMap(engine), TutorialMap(engine)]
 		self.MapsList2 = []
 		for m in self.MapsList:
 			m.Load()
