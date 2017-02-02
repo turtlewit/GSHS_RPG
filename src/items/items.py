@@ -31,6 +31,7 @@ class Slot(Enum):
     WEAPON_A=10
     WEAPON_B=11
 
+'''
 class Stat(Enum):
     PHYSICAL_INTEGRITY=0
     OLD_WAY=1
@@ -42,3 +43,28 @@ class Stat(Enum):
     MENTAL_FORTITUDE=7
     SANITY=8
     REFLEX=9
+'''
+
+class Stat:
+  Stats = {}
+
+  def __init__(self, name):
+    self.m_ID = len(self.Stats)
+    self.Stats[self.m_ID] = self
+
+    self.m_name = "Default Name"
+    self.m_xp = 0
+
+  def GetRating(self):
+    x = 0
+    y = -1
+    while self.m_xp >= x:
+        y += 1
+        x += x + (100.0*(1.05**y))
+        print(x, y)
+    alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+    return alphabet[y]
+
+stat = Stat('hi')
+stat.m_xp = 205
+print(stat.GetRating())
