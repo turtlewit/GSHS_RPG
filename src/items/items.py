@@ -63,8 +63,7 @@ class Stat:
         x += x + (100.0*(1.05**y))
         print(x, y)
     alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-    return alphabet[y]
-
-stat = Stat('hi')
-stat.m_xp = 205
-print(stat.GetRating())
+    if y < 26:
+      return alphabet[25 - y]
+    else:
+      return alphabet[0]
