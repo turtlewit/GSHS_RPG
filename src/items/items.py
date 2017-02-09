@@ -32,11 +32,8 @@ class Slot(Enum):
     WEAPON_B=11
 
 class Stat:
-  Stats = {}
-
-  def __init__(self, name="Default Name"):
-    self.m_ID = len(self.Stats)
-    self.Stats[self.m_ID] = self
+  def __init__(self, name, id):
+    self.m_ID = id
 
     self.m_name = name
     self.m_xp = 0
@@ -50,11 +47,12 @@ class Stat:
         print(x, y)
     alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
     if y < 26:
-      return alphabet[25 - y]
+        return alphabet[25 - y]
     else:
-      return alphabet[0]
+        return alphabet[0]
 
-class Stat(Enum):
+
+class Stats(Enum):
     PHYSICAL_INTEGRITY=0
     OLD_WAY=1
     NEW_WAY=2
@@ -63,5 +61,18 @@ class Stat(Enum):
     ENGINEERING=5
     ARTIFICING=6
     MENTAL_FORTITUDE=7
-    SANITY=8
-    REFLEX=9
+    REFREX=8
+
+    def Generate():
+        l = [
+        Stat("Physical Integrity", 0),
+        Stat("Old Way", 1),
+        Stat("New Way", 2),
+        Stat("Accuracy", 3),
+        Stat("Precision", 4),
+        Stat("Engineering", 5),
+        Stat("Artificing", 6),
+        Stat("Mental Fortitude", 7),
+        Stat("Reflex", 8)
+        ]
+        return l

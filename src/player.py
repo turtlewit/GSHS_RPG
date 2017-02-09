@@ -20,6 +20,7 @@ from AdventureEngine.components.gamecomponent import GameComponent
 from AdventureEngine.components.world import Tile, World
 from AdventureEngine.CoreEngine.input import Input
 from src.createmap import CreateMap
+from src.items.items import Stats
 import os
 import curses
 
@@ -51,6 +52,8 @@ class Player(GameComponent):
 		self.stctrl = None
 
 		self.m_initHasRun = False
+
+		self.m_stats = Stats.Generate()
 
 	def Init(self):
 		self.GetCurrentTile()
@@ -182,6 +185,15 @@ class Player(GameComponent):
 					self.m_spaceTransform = (self.m_spaceTransform[0], self.m_spaceTransform[1] + 1)
 					self.m_parent.m_transform = (0,0)
 					self.GetCurrentTile()
+
+				elif Input().command.lower().split()[0] in ['stat']:
+					if len(Input.command.split()) > 1:
+						newinp = Input().command.lower().split()
+						newinp.pop(0)
+						newinp = ' '.join(newinp)
+						for stat in self.m_stats:
+							if newinp == stat.m_name.lower():
+								self.GetRoot().stctrl.GetState('explore').AddText('%s, %s' % (stat.m_name, stat.GetRating()), 5)
 
 				elif Input().command.lower() in ['up']:
 					self.m_parent.m_engine.m_game.m_root.stctrl.GetState().ClearText()
