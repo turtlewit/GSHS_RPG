@@ -49,8 +49,11 @@ class Input:
 						renderer.m_cmd = ""
 						Input.unf_command = ""
 
-					if sys.platform == 'linux' or sys.platform == 'linux2' or sys.platform == 'linux-armv7l':
-						if currentCharacter == 127 or currentCharacter == curses.KEY_BACKSPACE:
+					if sys.platform == 'linux' \
+						or sys.platform == 'linux2' \
+						or sys.platform == 'linux-armv7l':
+						if currentCharacter == 127 \
+							or currentCharacter == curses.KEY_BACKSPACE:
 							renderer.m_cmd = renderer.m_cmd[:-1]
 							Input.unf_command = Input.unf_command[:-1]
 					else:
@@ -60,9 +63,19 @@ class Input:
 
 					if currentCharacter >=32 and currentCharacter <= 126:
 
-						if len(Input.unf_command) < renderer.BUFFER_X - len(renderer.m_vorCmd) - 1:
-							renderer.m_cmd += chr(currentCharacter)
-							Input.unf_command += chr(currentCharacter)
+						if renderer.m_vorCmd:
+							if len(Input.unf_command) \
+								< renderer.BUFFER_X \
+								- len(renderer.m_vorCmd) \
+								- 1:
+								renderer.m_cmd += chr(currentCharacter)
+								Input.unf_command += chr(currentCharacter)
 
-					if currentCharacter in [curses.KEY_UP, curses.KEY_DOWN, curses.KEY_LEFT, curses.KEY_RIGHT]:
+					if currentCharacter in [
+						curses.KEY_UP,
+						curses.KEY_DOWN,
+						curses.KEY_LEFT,
+						curses.KEY_RIGHT,
+						27
+						]:
 						Input.command = currentCharacter

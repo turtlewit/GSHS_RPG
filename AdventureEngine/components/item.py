@@ -43,7 +43,9 @@ class Item(GameComponent):
 		if self.m_isPickedUp:
 			self.m_active = False
 		else:
-			if self.GetPlayer().GetPosition() == self.GetPosition() and self.GetPlayer().GetSpacePosition() == self.m_parent.m_parent.m_parent.m_transform:
+			if self.GetPlayer().GetPosition() == self.GetPosition() \
+				and self.GetPlayer().GetSpacePosition() \
+				== self.m_parent.m_parent.m_parent.m_transform:
 				self.m_active = True
 			else:
 				self.m_active = False

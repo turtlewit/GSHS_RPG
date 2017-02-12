@@ -109,10 +109,12 @@ class Renderer:
 			l+=1
 		if self.m_vorCmd != None:
 			if self.m_compareTextBoxList != self.m_mainTextBoxList:
-				if len(''.join(self.m_compareTextBoxList)) <= len(''.join(self.m_mainTextBoxList)):	#Adding
+				if len(''.join(self.m_compareTextBoxList)) \
+					<= len(''.join(self.m_mainTextBoxList)):	#Adding
 					good = True
 					for i in range (0, len(''.join(self.m_compareTextBoxList))):
-						if ''.join(self.m_compareTextBoxList)[i] != ''.join(self.m_mainTextBoxList)[i]:
+						if ''.join(self.m_compareTextBoxList)[i] \
+							!= ''.join(self.m_mainTextBoxList)[i]:
 							good = False
 							break
 					if good:
@@ -126,11 +128,13 @@ class Renderer:
 						self.m_mainTextBox = ""
 						self.m_incompleteTextBox = ""
 
-				elif len(''.join(self.m_compareTextBoxList)) > len(''.join(self.m_mainTextBoxList)):	#Subtracting
+				elif len(''.join(self.m_compareTextBoxList)) \
+					> len(''.join(self.m_mainTextBoxList)):	#Subtracting
 					good = True
 
 					for i in range (0, len(''.join(self.m_mainTextBoxList))):
-						if ''.join(self.m_compareTextBoxList)[i] != ''.join(self.m_mainTextBoxList)[i]:
+						if ''.join(self.m_compareTextBoxList)[i] \
+							!= ''.join(self.m_mainTextBoxList)[i]:
 							good = False
 
 					if not good:
@@ -183,7 +187,10 @@ class Renderer:
 		self.m_screen.addstr(self.m_cmd)
 
 		for obj in self.m_renderObjects:
-			self.m_screen.addstr(obj[0], obj[1], obj[2])
+			if len(obj)==4:
+				self.m_screen.addstr(obj[0], obj[1], obj[2], obj[3])
+			else:
+				self.m_screen.addstr(obj[0], obj[1], obj[2])
 
 		self.m_screen.refresh()
 

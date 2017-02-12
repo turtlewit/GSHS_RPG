@@ -18,6 +18,7 @@
 
 from enum import Enum
 
+
 class Slot(Enum):
     HEAD=0
     SHOULDER_L=1
@@ -30,6 +31,7 @@ class Slot(Enum):
 
     WEAPON_A=10
     WEAPON_B=11
+
 
 class Stat:
   def __init__(self, name, id):
@@ -45,7 +47,10 @@ class Stat:
         y += 1
         x += x + (100.0*(1.05**y))
         print(x, y)
-    alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+    alphabet = [
+    'A','B','C','D','E','F','G','H','I','J','K','L','M',
+    'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+    ]
     if y < 26:
         return alphabet[25 - y]
     else:

@@ -21,7 +21,13 @@ from AdventureEngine.CoreEngine.input import Input
 
 class SignPost(TextItem):
 
-	def __init__(self, groundDescription, inspectDescription, name="signpost", canBeDestroyed=True):
+	def __init__(
+		self,
+		groundDescription,
+		inspectDescription,
+		name="signpost",
+		canBeDestroyed=True
+		):
 
 		TextItem.__init__(self, name)
 
@@ -46,5 +52,3 @@ class SignPost(TextItem):
 						self.m_enabled = False
 
 		self.m_parent.m_engine.m_game.GetRootObject().stctrl.GetState().AddText("\n%s" % self.m_groundDescription, 4)
-
-			

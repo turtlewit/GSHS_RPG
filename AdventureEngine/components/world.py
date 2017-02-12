@@ -29,7 +29,15 @@ class World(GameComponent):
 		self.m_tileList = []
 
 class Tile(GameComponent):
-	def __init__(self, move_north_message=None, move_south_message=None, move_east_message=None, move_west_message=None, m_name=None, m_description=None):
+	def __init__(
+		self,
+		move_north_message=None,
+		move_south_message=None,
+		move_east_message=None,
+		move_west_message=None,
+		m_name=None,
+		m_description=None
+		):
 		GameComponent.__init__(self)
 		self.m_type = "tile"
 		self.move_north_message = move_north_message
