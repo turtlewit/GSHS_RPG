@@ -78,7 +78,6 @@ class DefaultState(State):
 		]
 
 	def Update2(self):
-
 		if self.timeticks >= 60:
 			self.renderer.m_renderObjects = []
 			self.timeticks = 0
@@ -95,8 +94,6 @@ class DefaultState(State):
 		for thing in self.stuffToGive:
 			if thing not in self.renderer.m_renderObjects:
 				self.renderer.m_renderObjects.append(thing)
-
-
 
 		self.timeticks +=1
 

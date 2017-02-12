@@ -68,12 +68,15 @@ class Renderer:
 		self.m_mainTextBox2 = ""
 		self.m_incompleteTextBox = ""
 		self.m_placeInList = 0
+		#
 
 		self.useLineConvert = True
 
 		self.m_clock = Clock()
 
-		self.m_renderObjects = []		#Typical object: [y, x, text]
+		# Typical object: [y, x, text]
+		# Or [y, x, text, color_pair]
+		self.m_renderObjects = []
 
 	def LineConvert(self, line):
 		line = line.split()
