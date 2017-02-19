@@ -18,61 +18,82 @@
 
 from enum import Enum
 
+
 class Slot(Enum):
-    HEAD=0
-    SHOULDER_L=1
-    SHOULDER_R=2
-    TORSO=3
-    ARM_L=4
-    ARM_R=5
-    LEGS=6
-    FEET=7
-    WEAPON_A=8
-    WEAPON_B=9
+	HEAD=0
+	SHOULDER_L=1
+	SHOULDER_R=2
+	TORSO=3
+	ARM_L=4
+	ARM_R=5
+	LEGS=6
+	FEET=7
+	WEAPON_A=8
+	WEAPON_B=9
+
 
 class Stat:
-    def __init__(self, name, id):
-        self.m_ID = id
-        self.m_name = name
-        self.m_xp = 0
+	def __init__(self, name, id):
+		self.m_ID = id
+		self.m_name = name
+		self.m_xp = 0
 
-    def GetRating(self):
-        x = 0
-        y = -1
-        while self.m_xp >= x:
-            y += 1
-            x += x + (100.0*(1.05**y))
-        alphabet = [
-        'A','B','C','D','E','F','G','H','I','J','K','L','M',
-        'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
-        ]
-        if y < 26:
-            return alphabet[25 - y]
-        else:
-            return alphabet[0]
+	def GetRating(self):
+		x = 0
+		y = -1
+		while self.m_xp >= x:
+			y += 1
+			x += x + (100.0*(1.05**y))
+		alphabet = [
+		'A','B','C','D','E','F','G','H','I','J','K','L','M',
+		'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+		]
+		if y < 26:
+			return alphabet[25 - y]
+		else:
+			return alphabet[0]
+
+	def SetRating(self, letter):
+		x = 0
+		y = -1
+		alphabet = [
+		'A','B','C','D','E','F','G','H','I','J','K','L','M',
+		'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+		]
+		letter2 = None
+		while True:
+			y += 1
+			x += x + (100.0*(1.05**y))
+			if y < 26:
+				letter2 = alphabet[25 - y]
+			else:
+				break
+			if letter2 == letter:
+				break
+		self.m_xp = x
 
 
 class Stats(Enum):
-    PHYSICAL_INTEGRITY=0
-    OLD_WAY=1
-    NEW_WAY=2
-    ACCURACY=3
-    PRECISION=4
-    ENGINEERING=5
-    ARTIFICING=6
-    MENTAL_FORTITUDE=7
-    REFLEX=8
+	PHYSICAL_INTEGRITY=0
+	OLD_WAY=1
+	NEW_WAY=2
+	ACCURACY=3
+	PRECISION=4
+	ENGINEERING=5
+	ARTIFICING=6
+	MENTAL_FORTITUDE=7
+	REFLEX=8
 
-    def Generate():
-        l = [
-            Stat("Physical Integrity", 0),
-            Stat("Old Way", 1),
-            Stat("New Way", 2),
-            Stat("Accuracy", 3),
-            Stat("Precision", 4),
-            Stat("Engineering", 5),
-            Stat("Artificing", 6),
-            Stat("Mental Fortitude", 7),
-            Stat("Reflex", 8),
-        ]
-        return l
+	def Generate():
+		l = [
+			Stat("Physical Integrity", 0),
+			Stat("Old Way", 1),
+			Stat("New Way", 2),
+			Stat("Accuracy", 3),
+			Stat("Precision", 4),
+			Stat("Engineering", 5),
+			Stat("Artificing", 6),
+			Stat("Mental Fortitude", 7),
+			Stat("Reflex", 8),
+		]
+		return l
