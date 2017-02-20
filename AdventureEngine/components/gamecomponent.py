@@ -45,3 +45,7 @@ class GameComponent:
 
 	def GetPlayer(self):
 		return self.m_parent.m_engine.m_game.m_root.m_player
+
+	def Destroy(self):
+		self.m_parent.m_parent.m_children.remove(self.m_parent)
+		self.m_parent.m_parent = None

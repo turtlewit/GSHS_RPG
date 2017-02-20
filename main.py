@@ -26,10 +26,15 @@ class Main:
 		if not os.path.exists(os.path.join('data', 'logs')):
 			os.makedirs(os.path.join('data', 'logs'))
 
+
+	def Run(self):
 		engine = Engine(GSHS_RPG())
-		engine.InitRenderer("Test")
-		engine.Start()
+		engine.InitRenderer("Verloren")
+		return engine.Start()
 
 
 if __name__ == "__main__":
-	Main()
+	while True:
+		main = Main()
+		if not main.Run():
+			break

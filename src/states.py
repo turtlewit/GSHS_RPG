@@ -285,6 +285,14 @@ class CombatState(State):
 			if Input().command == 10:
 				self.activeOption.ClickAction()
 
+		if self.subject.a_health <= 0:
+			self.m_controller.ChangeState("gameover")
+
+		if self.target.a_health <= 0:
+			self.target.Destroy()
+			self.target.m_enabled = False
+			self.m_controller.ChangeState("explore")
+
 		self.Render()
 
 	def Render(self):
@@ -370,3 +378,28 @@ class CombatState(State):
 		self.subject = subject
 		self.pair = [subject, target]
 		self.m_controller.ChangeState("combat")
+
+
+class GameOverState(State):
+	def __init__(self, controller):
+		State.__init__(self, controller, "gameover")
+		self.gameovertext = "You have died."
+
+	def Init2(self):
+		self.m_parent.m_renderer.m_vorCmd = None
+		Input.takeTextInput = False
+		self.GetRenderer().m_renderObjects = []
+
+	def Update2(self):
+		self.GetRenderer().m_renderObjects.append(
+			[
+				int(self.GetRenderer().BUFFER_Y / 2),
+				int((self.GetRenderer().BUFFER_X / 2)
+					- (len(self.gameovertext) / 2)),
+				self.gameovertext
+			]
+		)
+
+		if Input.char:
+			self.GetEngine().m_restartGame = True
+			self.GetEngine().m_isRunning = False

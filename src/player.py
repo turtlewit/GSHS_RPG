@@ -43,14 +43,14 @@ class Player(GameComponent):
 				"You do a quick attack! Good job!",
 				1,
 				None,
-				2
+				0.75
 			),
 			Attack( # Normal Attack
 				self,
 				"You attack normally. Nice.",
-				2,
+				3,
 				None,
-				1
+				2
 			)
 		]
 
@@ -262,7 +262,7 @@ class Player(GameComponent):
 									),
 									5
 								)
-				elif Input().command.lower().split()[0] in ['combat']:
+				elif Input().command.lower().split()[0] in ['attack']:
 					if len(Input().command.lower().split()) > 1:
 						enemy = None
 						for child in self.currentTile.m_parent.m_children:

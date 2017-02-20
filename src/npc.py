@@ -30,7 +30,9 @@ class Enemy(GameComponent):
 		self.m_type = "npc"
 		self.m_name = name
 		self.a_stats = stats
-		self.a_health = 200
+		self.a_health = 20
+
+		self.m_enabled = True
 
 		self.time1 = time.time()
 
@@ -44,31 +46,38 @@ class Enemy(GameComponent):
 				"Oh wow! %s slashed!" % self.m_name,
 				1,
 				None,
-				1
+				2.5
 			),
 			Attack(
 				self,
 				"Oh wow! %s slashed in a different way!" % self.m_name,
 				2,
 				None,
-				1
+				5
 			)
 		]
 
 	def Update(self):
-		if self.GetRoot().stctrl.GetState().m_name == "combat":
-			if self.canAttack:
-				self.GetRoot().stctrl.GetState('combat').Attack(
-					self,
-					0,
-					self.attacks[randint(0, len(self.attacks) - 1)]
-				)
-				self.canAttack = False
-			else:
-				self.currentCooldown -= (time.time() - self.time1)
-				if self.currentCooldown <= 0.0:
-					self.canAttack = True
-		self.time1 = time.time()
+		if self.m_enabled:
+			if self.GetRoot().stctrl.GetState().m_name == "combat":
+				if self.canAttack:
+					self.GetRoot().stctrl.GetState('combat').Attack(
+						self,
+						0,
+						self.attacks[randint(0, len(self.attacks) - 1)]
+					)
+					self.canAttack = False
+				else:
+					self.currentCooldown -= (time.time() - self.time1)
+					if self.currentCooldown <= 0.0:
+						self.canAttack = True
+			elif self.GetRoot().stctrl.GetState().m_name == "explore":
+				self.GetRoot().stctrl.GetState("explore")\
+					.AddText(
+						"There is an enemy here.",
+						4
+					)
+			self.time1 = time.time()
 
 
 	def TakeDamage(self, damage, type):

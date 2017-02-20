@@ -23,6 +23,7 @@ from AdventureEngine.CoreEngine.audio import Audio
 class Engine:
 	def __init__(self,game):
 		self.m_isRunning = False
+		self.m_restartGame = False
 		self.m_game = game
 		self.m_renderingEngine = None
 		self.m_audio = Audio()
@@ -37,7 +38,7 @@ class Engine:
 		if self.m_isRunning:
 			return
 
-		self.Run()
+		return self.Run()
 
 	def Stop(self):
 		if self.m_isRunning == False:
@@ -60,3 +61,8 @@ class Engine:
 
 		self.m_renderingEngine.Cleanup()
 
+		if self.m_restartGame:
+			self.m_restartGame = False
+			return True
+		else:
+			return False

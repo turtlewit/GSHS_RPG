@@ -50,6 +50,7 @@ class GSHS_RPG(Game):
 		root.AddComponent(MapState(stctrl))
 		root.AddComponent(ExplorationState(stctrl))
 		root.AddComponent(CombatState(stctrl))
+		root.AddComponent(GameOverState(stctrl))
 		self.AddObject(root)
 		self.m_root = root
 		self.GetRootObject().m_game = self
