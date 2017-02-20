@@ -46,6 +46,8 @@ class Input:
 						if len(Input.unf_command.split()) > 0:
 							Input.commandHistory.insert(0,Input.command)
 							Input.command = Input.unf_command
+						else:
+							Input.command = 10
 						renderer.m_cmd = ""
 						Input.unf_command = ""
 

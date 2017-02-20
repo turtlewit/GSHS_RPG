@@ -171,23 +171,54 @@ class MapState(State):
 			self.m_controller.ChangeState("explore")
 
 
+# Option Definitions
+class Option:
+	def __init__(self, text, position):
+		self.text = text
+		# Direction is [Up, Down, Left, Right]
+		self.direction = [None, None, None, None]
+		self.position = position
+
+	def ClickAction(self):
+		pass
+
+
+class BasicOption(Option):
+	def __init__(self, text, position, state, submenu_to_go_to):
+		Option.__init__(self, text, position)
+		self.state = state
+		self.subNumber = submenu_to_go_to
+
+	def ClickAction(self):
+		self.state.submenus[self.subNumber].enabled = True
+		self.state.activeOption \
+			= self.state.submenus[self.subNumber].options[0]
+
+
+class AttackOption(Option):
+	def __init__(self, text, position, state, attack):
+		Option.__init__(self, text, position)
+		self.state = state
+		self.attack = attack
+
+	def ClickAction(self):
+		if self.state.subject.currentCooldown <= 0:
+			self.state.Attack(
+				self.state.subject, 1, self.attack
+			)
+
+
 class CombatState(State):
 	def __init__(self, controller):
 		State.__init__(self, controller, "combat")
 		self.renderer = None
 		self.target = None
+		self.subject = None
+		self.pair = []
 
-		self.options = [
-			self.Option("Attack"),
-			self.Option("Defend"),
-			self.Option("Item")
-		]
-		self.options[0].direction[1] = self.options[1]
-		self.options[1].direction[0] = self.options[0]
-		self.options[1].direction[1] = self.options[2]
-		self.options[2].direction[0] = self.options[1]
+		self.textBuffer = ""
 
-		self.activeOption = self.options[0]
+
 
 		self.menu_art = open(
 			os.path.join(
@@ -195,13 +226,14 @@ class CombatState(State):
 				)
 			).read()
 
-	class Option:
-		def __init__(self, text):
-			self.text = text
-			# Direction is [Up, Down, Left, Right]
-			self.direction = [None, None, None, None]
+	class Submenu:
+		def __init__(self):
+			self.options = []
+			self.uiAsset = None
+			self.enabled = False
 
 	def Init2(self):
+
 		curses.start_color()
 		curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_WHITE)
 		curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
@@ -211,22 +243,35 @@ class CombatState(State):
 		if self.renderer == None:
 			self.renderer = self.m_parent.m_renderer
 
-	def Update2(self):
-		self.renderer.m_renderObjects.append(
-			[0, 0, self.menu_art, curses.color_pair(1)]
-		)
+		# Create Submenus
+		self.submenus = [
+			self.Submenu(), # First Submenu
+			self.Submenu() # Attack Submenu
+		]
 
-		position = 19
-		for option in self.options:
-			if self.activeOption == option:
-				self.renderer.m_renderObjects.append(
-					[position, 1, option.text, curses.color_pair(2)]
-				)
-			else:
-				self.renderer.m_renderObjects.append(
-					[position, 1, option.text, curses.color_pair(3)]
-				)
-			position += 1
+		# First Submenu
+		self.submenus[0].enabled = True
+		self.submenus[0].options = [
+			BasicOption("Attack", (19, 1), self, 1),
+			BasicOption("Defend", (20, 1), self, 1),
+			BasicOption("Item", (21, 1), self, 1)
+		]
+		self.submenus[0].options[0].direction[1] = self.submenus[0].options[1]
+		self.submenus[0].options[1].direction[0] = self.submenus[0].options[0]
+		self.submenus[0].options[1].direction[1] = self.submenus[0].options[2]
+		self.submenus[0].options[2].direction[0] = self.submenus[0].options[1]
+
+		# Attack Submenu
+		self.submenus[1].options = [
+			AttackOption("Weak", (19, 20), self, self.subject.attacks[0]),
+			AttackOption("Strong", (20, 20), self, self.subject.attacks[1])
+		]
+		self.submenus[1].options[0].direction[1] = self.submenus[1].options[1]
+		self.submenus[1].options[1].direction[0] = self.submenus[1].options[0]
+
+		self.activeOption = self.submenus[0].options[0]
+
+	def Update2(self):
 
 		if type(Input().command) is not str:
 			if Input().command == curses.KEY_UP:
@@ -237,8 +282,40 @@ class CombatState(State):
 					self.activeOption = self.activeOption.direction[1]
 			if Input().command == 27:
 				self.m_controller.ChangeState("explore")
-		mname = "Coolest Monster"
-		minfo = "Health: 30"
+			if Input().command == 10:
+				self.activeOption.ClickAction()
+
+		self.Render()
+
+	def Render(self):
+		self.renderer.m_renderObjects.append(
+			[0, 0, self.menu_art, curses.color_pair(1)]
+		)
+
+		for submenu in self.submenus:
+			if submenu.enabled:
+				for option in submenu.options:
+					if option == self.activeOption:
+						self.renderer.m_renderObjects.append(
+							[
+								option.position[0],
+								option.position[1],
+								option.text,
+								curses.color_pair(2)
+							]
+						)
+					else:
+						self.renderer.m_renderObjects.append(
+							[
+								option.position[0],
+								option.position[1],
+								option.text,
+								curses.color_pair(3)
+							]
+						)
+
+		mname = self.target.m_name
+		minfo = "Health: %d" % self.target.a_health
 		self.renderer.m_renderObjects.append(
 			[
 				0,
@@ -257,14 +334,39 @@ class CombatState(State):
 				curses.color_pair(3)
 			]
 		)
-		ftext = """The Coolest Monster decides that you are a worthy target.\n\
-Coolest Monster uses Slash.\n\
-You are minorly bruised."""
-		self.renderer.m_renderObjects.append(
-			[3, 0, ftext, curses.color_pair(3)]
-		)
 
+		if len(self.textBuffer.split('\n')) <= 14:
+			self.renderer.m_renderObjects.append(
+				[
+					3,
+					0,
+					self.textBuffer,
+					curses.color_pair(3)
+				]
+			)
+		else:
+			textlist = self.textBuffer.split('\n')
+			for i in range(0, ((len(textlist) - 1) - 14)):
+				textlist.pop(0)
+			textlist = '\n'.join(textlist)
+			self.renderer.m_renderObjects.append(
+				[
+					3,
+					0,
+					textlist,
+					curses.color_pair(3)
+				]
+			)
 
-	def Initiate(self, target):
+	# Target: 0 = player, 1 = enemy
+	def Attack(self, subject, target, attack):
+		self.pair[target].TakeDamage(attack.baseAttack, attack.type)
+		subject.currentCooldown = attack.cooldown
+		self.textBuffer += "%s\n%d\n" \
+			% (attack.text, self.pair[target].a_health)
+
+	def Initiate(self, subject, target):
 		self.target = target
+		self.subject = subject
+		self.pair = [subject, target]
 		self.m_controller.ChangeState("combat")

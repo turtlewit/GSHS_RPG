@@ -20,7 +20,7 @@ class GameComponent:
 	def __init__(self):
 		self.m_parent = None
 		self.m_type = None
-		
+
 
 	def SetParent(self, parent):
 		self.m_parent = parent
@@ -30,6 +30,12 @@ class GameComponent:
 
 	def GetPosition(self):
 		return self.m_parent.m_transform
+
+	def GetEngine(self):
+		return self.m_parent.m_engine
+
+	def GetRenderer(self):
+		return self.m_parent.m_engine.m_renderingEngine
 
 	def GetGame(self):
 		return self.m_parent.m_engine.m_game

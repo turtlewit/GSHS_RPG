@@ -22,6 +22,7 @@ from AdventureEngine.CoreEngine.gameobject import GameObject
 
 from src.items.signpost import SignPost
 from src.tilelock import TileLock
+from src.npc import Enemy
 
 import os
 
@@ -141,3 +142,8 @@ Once you have, continue south."
 			)
 		self.FindTileAtCoord((0,-2)).SetEngine(self.engine)
 		self.FindTileAtCoord((0,-2)).AddChild(gO)
+
+		gO = GameObject()
+		gO.m_transform = (0,0)
+		gO.AddComponent(Enemy())
+		self.FindTileAtCoord((0,0)).AddChild(gO)

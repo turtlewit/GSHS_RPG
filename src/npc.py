@@ -19,9 +19,67 @@
 from AdventureEngine.components.gamecomponent import GameComponent
 from src.items.items import Stats
 
+import time
+
+from random import randint
+
 
 class Enemy(GameComponent):
 
 	def __init__(self, name="Enemy", stats=Stats.Generate()):
+		self.m_type = "npc"
 		self.m_name = name
-		self.m_stats = stats
+		self.a_stats = stats
+		self.a_health = 200
+
+		self.time1 = time.time()
+
+		self.currentCooldown = 0.0
+
+		self.canAttack = False
+
+		self.attacks = [
+			Attack(
+				self,
+				"Oh wow! %s slashed!" % self.m_name,
+				1,
+				None,
+				1
+			),
+			Attack(
+				self,
+				"Oh wow! %s slashed in a different way!" % self.m_name,
+				2,
+				None,
+				1
+			)
+		]
+
+	def Update(self):
+		if self.GetRoot().stctrl.GetState().m_name == "combat":
+			if self.canAttack:
+				self.GetRoot().stctrl.GetState('combat').Attack(
+					self,
+					0,
+					self.attacks[randint(0, len(self.attacks) - 1)]
+				)
+				self.canAttack = False
+			else:
+				self.currentCooldown -= (time.time() - self.time1)
+				if self.currentCooldown <= 0.0:
+					self.canAttack = True
+		self.time1 = time.time()
+
+
+	def TakeDamage(self, damage, type):
+		self.a_health -= damage
+
+
+class Attack:
+	def __init__(self, npc, text, baseAttack, type, cooldown, skills = []):
+		self.m_npc = npc
+		self.text = text
+		self.type = type
+		self.baseAttack = baseAttack
+		self.cooldown = cooldown
+		self.skills = skills

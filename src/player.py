@@ -21,8 +21,10 @@ from AdventureEngine.components.world import Tile, World
 from AdventureEngine.CoreEngine.input import Input
 from src.createmap import CreateMap
 from src.items.items import Stats
+from src.npc import Attack
 import os
 import curses
+import time
 
 
 class Player(GameComponent):
@@ -31,8 +33,30 @@ class Player(GameComponent):
 		GameComponent.__init__(self)
 		# Game Properties
 		self.m_name = "player"
-		self.m_stats = Stats.Generate()
+		self.a_stats = Stats.Generate()
+		self.a_health = 20
 		self.m_inventory = []
+
+		self.attacks = [
+			Attack( # Quick Attack
+				self,
+				"You do a quick attack! Good job!",
+				1,
+				None,
+				2
+			),
+			Attack( # Normal Attack
+				self,
+				"You attack normally. Nice.",
+				2,
+				None,
+				1
+			)
+		]
+
+		# Combat Variables
+		self.currentCooldown = 0
+		self.time1 = time.time()
 
 		# Spacial Properties
 		self.currentTile = None
@@ -89,6 +113,11 @@ class Player(GameComponent):
 				self.mapText = CreateMap.Create(self.world.m_parent, self)
 
 			self.SendText()
+		elif self.GetRoot().stctrl.GetState().m_name == "combat":
+			if self.currentCooldown > 0:
+				self.currentCooldown -= (time.time() - self.time1)
+		self.time1 = time.time()
+
 
 	def GetSpacePosition(self):
 		return self.m_spaceTransform
@@ -233,8 +262,18 @@ class Player(GameComponent):
 									),
 									5
 								)
-				elif Input().command.lower() in ['combat']:
-					self.GetRoot().stctrl.GetState("combat").Initiate(self)
+				elif Input().command.lower().split()[0] in ['combat']:
+					if len(Input().command.lower().split()) > 1:
+						enemy = None
+						for child in self.currentTile.m_parent.m_children:
+							for component in child.m_components:
+								if component.m_type == "npc":
+									if component.m_name.lower() \
+										== Input().command.lower().split()[1]:
+										enemy = component
+						if enemy:
+							self.GetRoot().stctrl.GetState("combat")\
+								.Initiate(self, enemy)
 
 				elif Input().command.lower() in ['up']:
 					self.GetRoot().stctrl.GetState().ClearText()
@@ -247,3 +286,6 @@ class Player(GameComponent):
 
 				elif Input().command.lower() in ['quit', 'exit']:
 					self.m_parent.m_engine.m_isRunning = False
+
+	def TakeDamage(self, damage, type):
+		self.a_health -= damage

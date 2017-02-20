@@ -33,7 +33,7 @@ class Clock:
 		self.time1 = time.time()
 
 	def DeltaTime(self):
-		return self.time1 - time.time()
+		return time.time() - self.time1
 
 class Renderer:
 
