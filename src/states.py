@@ -21,6 +21,8 @@ from AdventureEngine.components.state import State
 from AdventureEngine.CoreEngine.input import Input
 import curses
 import os
+
+
 class StateController(GameComponent):
 
 	def __init__(self):
@@ -46,6 +48,7 @@ class StateController(GameComponent):
 			else:
 				self.ChangeState("default")
 				return self.m_currentState
+
 
 class DefaultState(State):
 	def __init__(self, controller):
@@ -100,6 +103,7 @@ class DefaultState(State):
 		if Input.char:
 			self.m_controller.ChangeState("explore")
 
+
 class ExplorationState(State):
 	def __init__(self, controller):
 		State.__init__(self, controller, "explore")
@@ -113,7 +117,6 @@ class ExplorationState(State):
 		#self.m_mainTextBox = ""
 		Input.takeTextInput = True
 		self.m_parent.m_renderer.m_vorCmd = ">"
-
 
 	def Update2(self):
 		alist = list(self.printDict.keys())
@@ -202,18 +205,24 @@ class AttackOption(Option):
 		self.attack = attack
 
 	def ClickAction(self):
-		if self.state.subject.currentCooldown <= 0:
-			self.state.Attack(
-				self.state.subject, 1, self.attack
-			)
+		self.state.Attack(
+			self.state.subject, self.attack
+		)
 
 
 class CombatState(State):
 	def __init__(self, controller):
 		State.__init__(self, controller, "combat")
 		self.renderer = None
-		self.target = None
+
 		self.subject = None
+		self.s_queue = [None, None]
+		self.sMaxCooldown = 0
+
+		self.target = None
+		self.t_queue = [None, None]
+		self.tMaxCooldown = 0
+
 		self.pair = []
 
 		self.textBuffer = ""
@@ -233,12 +242,19 @@ class CombatState(State):
 			self.enabled = False
 
 	def Init2(self):
-
 		curses.start_color()
 		curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_WHITE)
 		curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
 		curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_BLACK)
+		curses.init_pair(10, curses.COLOR_GREEN, curses.COLOR_GREEN)
+		curses.init_pair(11, curses.COLOR_RED, curses.COLOR_RED)
+		curses.init_pair(20, curses.COLOR_GREEN, curses.COLOR_BLACK)
+		curses.init_pair(21, curses.COLOR_RED, curses.COLOR_BLACK)
 		self.m_parent.m_renderer.m_vorCmd = None
+
+		self.s_queue = [None, None]
+		self.t_queue = [None, None]
+
 		# Input.takeTextInput = False
 		if self.renderer == None:
 			self.renderer = self.m_parent.m_renderer
@@ -272,18 +288,7 @@ class CombatState(State):
 		self.activeOption = self.submenus[0].options[0]
 
 	def Update2(self):
-
-		if type(Input().command) is not str:
-			if Input().command == curses.KEY_UP:
-				if self.activeOption.direction[0]:
-					self.activeOption = self.activeOption.direction[0]
-			if Input().command == curses.KEY_DOWN:
-				if self.activeOption.direction[1]:
-					self.activeOption = self.activeOption.direction[1]
-			if Input().command == 27:
-				self.m_controller.ChangeState("explore")
-			if Input().command == 10:
-				self.activeOption.ClickAction()
+		self.TakeInput()
 
 		if self.subject.a_health <= 0:
 			self.m_controller.ChangeState("gameover")
@@ -293,7 +298,28 @@ class CombatState(State):
 			self.target.m_enabled = False
 			self.m_controller.ChangeState("explore")
 
+		self.AttackCheck()
+
 		self.Render()
+
+	def TakeInput(self):
+		if type(Input().command) is not str:
+			if Input().command == curses.KEY_UP:
+				if self.activeOption.direction[0]:
+					self.activeOption = self.activeOption.direction[0]
+			if Input().command == curses.KEY_DOWN:
+				if self.activeOption.direction[1]:
+					self.activeOption = self.activeOption.direction[1]
+			if Input().command == 27:
+				if self.activeOption in self.submenus[0].options:
+					self.m_controller.ChangeState("explore")
+				else:
+					for submenu in self.submenus:
+						if submenu != self.submenus[0]:
+							submenu.enabled = False
+					self.activeOption = self.submenus[0].options[0]
+			if Input().command == 10:
+				self.activeOption.ClickAction()
 
 	def Render(self):
 		self.renderer.m_renderObjects.append(
@@ -321,6 +347,26 @@ class CombatState(State):
 								curses.color_pair(3)
 							]
 						)
+
+		if self.sMaxCooldown > 0:
+			percent = self.subject.currentCooldown / self.sMaxCooldown
+			tiles = 80 - int(80 * percent)
+			toRender = ""
+			for i in range(0, tiles):
+				toRender += " "
+			self.renderer.m_renderObjects.append(
+				[2, 0, toRender, curses.color_pair(10)]
+			)
+
+		if self.tMaxCooldown > 0:
+			percent = self.target.currentCooldown / self.tMaxCooldown
+			tiles = 80 - int(80 * percent)
+			toRender = ""
+			for i in range(0, tiles):
+				toRender += " "
+			self.renderer.m_renderObjects.append(
+				[17, 0, toRender, curses.color_pair(11)]
+			)
 
 		mname = self.target.m_name
 		minfo = "Health: %d" % self.target.a_health
@@ -366,12 +412,75 @@ class CombatState(State):
 				]
 			)
 
-	# Target: 0 = player, 1 = enemy
-	def Attack(self, subject, target, attack):
-		self.pair[target].TakeDamage(attack.baseAttack, attack.type)
+	def Attack(self, subject, attack):
+		# If the subject is the player, add the attack
+		# to the subject queue, if the queue is not full
+		if subject == self.subject:
+			if self.s_queue[0]:
+				if self.s_queue[1]:
+					pass
+				else:
+					self.s_queue[1] = attack
+					self.textBuffer += "%s prepares another attack...\n" \
+						% self.subject.m_name.capitalize()
+
+			else:
+				self.s_queue[0] = attack
+				subject.currentCooldown = attack.cooldown
+				self.sMaxCooldown = attack.cooldown
+				self.textBuffer += "%s prepares an attack...\n" \
+					% self.subject.m_name.capitalize()
+
+		# If the subject is the target, add the attack
+		# to the target queue, if the queue is not full
+		else:
+			if self.t_queue[0]:
+				if self.t_queue[1]:
+					pass
+				else:
+					self.t_queue[1] = attack
+					self.textBuffer += "%s prepares another attack...\n" \
+						% self.target.m_name.capitalize()
+			else:
+				self.t_queue[0] = attack
+				subject.currentCooldown = attack.cooldown
+				self.tMaxCooldown = attack.cooldown
+				self.textBuffer += "%s prepares an attack...\n" \
+					% self.target.m_name.capitalize()
+
+
+
+	def AttackCheck(self):
+		# Subject
+		if self.subject.currentCooldown <= 0 and self.s_queue[0]:
+			self.DoAttack(self.pair[1], self.subject, self.s_queue[0])
+			if self.s_queue[1]:
+				attack = self.s_queue[1]
+				self.s_queue = [None, None]
+				self.sMaxCooldown = 0
+				self.Attack(self.subject, attack)
+			else:
+				self.sMaxCooldown = 0
+				self.s_queue = [None, None]
+
+		# Target
+		if self.target.currentCooldown <= 0 and self.t_queue[0]:
+			self.DoAttack(self.pair[0], self.target, self.t_queue[0])
+			if self.t_queue[1]:
+				attack = self.t_queue[1]
+				self.t_queue = [None, None]
+				self.tMaxCooldown = 0
+				self.Attack(self.target, attack)
+			else:
+				self.tMaxCooldown = 0
+				self.s_queue = [None, None]
+
+	def DoAttack(self, target, subject, attack):
+		self.target.TakeDamage(attack.baseAttack, attack.type)
 		subject.currentCooldown = attack.cooldown
-		self.textBuffer += "%s\n%d\n" \
-			% (attack.text, self.pair[target].a_health)
+		self.textBuffer += "\n%s\n\n" \
+			% (attack.text)
+
 
 	def Initiate(self, subject, target):
 		self.target = target

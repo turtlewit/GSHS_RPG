@@ -46,14 +46,14 @@ class Enemy(GameComponent):
 				"Oh wow! %s slashed!" % self.m_name,
 				1,
 				None,
-				2.5
+				3
 			),
 			Attack(
 				self,
 				"Oh wow! %s slashed in a different way!" % self.m_name,
 				2,
 				None,
-				5
+				6
 			)
 		]
 
@@ -63,7 +63,6 @@ class Enemy(GameComponent):
 				if self.canAttack:
 					self.GetRoot().stctrl.GetState('combat').Attack(
 						self,
-						0,
 						self.attacks[randint(0, len(self.attacks) - 1)]
 					)
 					self.canAttack = False

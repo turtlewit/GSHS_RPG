@@ -43,14 +43,14 @@ class Player(GameComponent):
 				"You do a quick attack! Good job!",
 				1,
 				None,
-				0.75
+				2
 			),
 			Attack( # Normal Attack
 				self,
 				"You attack normally. Nice.",
 				3,
 				None,
-				2
+				5
 			)
 		]
 
