@@ -57,6 +57,7 @@ class Player(GameComponent):
 		# Combat Variables
 		self.currentCooldown = 0
 		self.time1 = time.time()
+		self.defending = False
 
 		# Spacial Properties
 		self.currentTile = None

@@ -210,7 +210,19 @@ class AttackOption(Option):
 		)
 
 
+class DefendOption(Option):
+	def __init__(self, text, position, state):
+		Option.__init__(self, text, position)
+		self.state = state
+
+	def ClickAction(self):
+		self.state.Defend()
+
+
 class CombatState(State):
+
+	DEFENCE_COOLDOWN = .5
+
 	def __init__(self, controller):
 		State.__init__(self, controller, "combat")
 		self.renderer = None
@@ -269,7 +281,7 @@ class CombatState(State):
 		self.submenus[0].enabled = True
 		self.submenus[0].options = [
 			BasicOption("Attack", (19, 1), self, 1),
-			BasicOption("Defend", (20, 1), self, 1),
+			DefendOption("Defend", (20, 1), self),
 			BasicOption("Item", (21, 1), self, 1)
 		]
 		self.submenus[0].options[0].direction[1] = self.submenus[0].options[1]
@@ -298,8 +310,10 @@ class CombatState(State):
 			self.target.m_enabled = False
 			self.m_controller.ChangeState("explore")
 
-		self.AttackCheck()
-
+		if not self.subject.defending:
+			self.AttackCheck()
+		else:
+			self.DefenceCheck()
 		self.Render()
 
 	def TakeInput(self):
@@ -448,7 +462,13 @@ class CombatState(State):
 				self.textBuffer += "%s prepares an attack...\n" \
 					% self.target.m_name.capitalize()
 
-
+	def Defend(self):
+		if not self.subject.defending:
+			self.subject.defending = True
+			self.subject.currentCooldown = self.DEFENCE_COOLDOWN
+			self.sMaxCooldown = self.DEFENCE_COOLDOWN
+			self.textBuffer += "%s is defending...\n" \
+				% self.subject.m_name.capitalize()
 
 	def AttackCheck(self):
 		# Subject
@@ -475,11 +495,30 @@ class CombatState(State):
 				self.tMaxCooldown = 0
 				self.s_queue = [None, None]
 
+	def DefenceCheck(self):
+		if self.subject.currentCooldown <= 0:
+			self.subject.defending = False
+
 	def DoAttack(self, target, subject, attack):
-		self.target.TakeDamage(attack.baseAttack, attack.type)
-		subject.currentCooldown = attack.cooldown
-		self.textBuffer += "\n%s\n\n" \
-			% (attack.text)
+		blocking = False
+		if target == self.subject:
+			if self.subject.defending:
+				blocking = True
+				subject.currentCooldown = attack.cooldown
+			else:
+				self.target.TakeDamage(attack.baseAttack, attack.type)
+				subject.currentCooldown = attack.cooldown
+				self.textBuffer += "\n%s\n\n" \
+					% (attack.text)
+			if blocking:
+				self.textBuffer += "\n%s\nHowever, %s blocked the attack!" \
+					% (attack.text, self.subject.m_name.capitalize())
+		else:
+			self.target.TakeDamage(attack.baseAttack, attack.type)
+			subject.currentCooldown = attack.cooldown
+			self.textBuffer += "\n%s\n\n" \
+				% (attack.text)
+
 
 
 	def Initiate(self, subject, target):
