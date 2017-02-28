@@ -310,9 +310,8 @@ class CombatState(State):
 			self.target.m_enabled = False
 			self.m_controller.ChangeState("explore")
 
-		if not self.subject.defending:
-			self.AttackCheck()
-		else:
+		self.AttackCheck()
+		if self.subject.defending:
 			self.DefenceCheck()
 		self.Render()
 
@@ -449,12 +448,7 @@ class CombatState(State):
 		# to the target queue, if the queue is not full
 		else:
 			if self.t_queue[0]:
-				if self.t_queue[1]:
-					pass
-				else:
-					self.t_queue[1] = attack
-					self.textBuffer += "%s prepares another attack...\n" \
-						% self.target.m_name.capitalize()
+				pass
 			else:
 				self.t_queue[0] = attack
 				subject.currentCooldown = attack.cooldown
@@ -497,6 +491,7 @@ class CombatState(State):
 
 	def DefenceCheck(self):
 		if self.subject.currentCooldown <= 0:
+			self.sMaxCooldown = 0
 			self.subject.defending = False
 
 	def DoAttack(self, target, subject, attack):
@@ -504,18 +499,15 @@ class CombatState(State):
 		if target == self.subject:
 			if self.subject.defending:
 				blocking = True
-				subject.currentCooldown = attack.cooldown
 			else:
 				self.target.TakeDamage(attack.baseAttack, attack.type)
-				subject.currentCooldown = attack.cooldown
 				self.textBuffer += "\n%s\n\n" \
 					% (attack.text)
 			if blocking:
-				self.textBuffer += "\n%s\nHowever, %s blocked the attack!" \
+				self.textBuffer += "\n%s\nHowever, %s blocked the attack!\n" \
 					% (attack.text, self.subject.m_name.capitalize())
 		else:
 			self.target.TakeDamage(attack.baseAttack, attack.type)
-			subject.currentCooldown = attack.cooldown
 			self.textBuffer += "\n%s\n\n" \
 				% (attack.text)
 

@@ -60,16 +60,13 @@ class Enemy(GameComponent):
 	def Update(self):
 		if self.m_enabled:
 			if self.GetRoot().stctrl.GetState().m_name == "combat":
-				if self.canAttack:
-					self.GetRoot().stctrl.GetState('combat').Attack(
+				self.GetRoot().stctrl.GetState("combat")\
+					.Attack(
 						self,
-						self.attacks[randint(0, len(self.attacks) - 1)]
+						self.attacks[randint(0,len(self.attacks) - 1)]
 					)
-					self.canAttack = False
-				else:
+				if self.currentCooldown > 0:
 					self.currentCooldown -= (time.time() - self.time1)
-					if self.currentCooldown <= 0.0:
-						self.canAttack = True
 			elif self.GetRoot().stctrl.GetState().m_name == "explore":
 				self.GetRoot().stctrl.GetState("explore")\
 					.AddText(
