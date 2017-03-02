@@ -487,11 +487,15 @@ class CombatState(State):
 				self.Attack(self.target, attack)
 			else:
 				self.tMaxCooldown = 0
-				self.s_queue = [None, None]
+				self.t_queue = [None, None]
 
 	def DefenceCheck(self):
 		if self.subject.currentCooldown <= 0:
-			self.sMaxCooldown = 0
+			if self.s_queue[0]:
+				self.sMaxCooldown = self.s_queue[0].cooldown
+				self.subject.currentCooldown = self.s_queue[0].cooldown
+			else:
+				self.sMaxCooldown = 0
 			self.subject.defending = False
 
 	def DoAttack(self, target, subject, attack):
@@ -500,9 +504,9 @@ class CombatState(State):
 			if self.subject.defending:
 				blocking = True
 			else:
-				self.target.TakeDamage(attack.baseAttack, attack.type)
-				self.textBuffer += "\n%s\n\n" \
-					% (attack.text)
+				target.TakeDamage(attack.baseAttack, attack.type)
+				self.textBuffer += "\n%s\nYour Health is now: %d\n" \
+					% (attack.text, self.subject.a_health)
 			if blocking:
 				self.textBuffer += "\n%s\nHowever, %s blocked the attack!\n" \
 					% (attack.text, self.subject.m_name.capitalize())
