@@ -9,3 +9,4 @@ cxfreeze
 *.log
 *.mp3
 .build-tools.cson
+.vscode/
