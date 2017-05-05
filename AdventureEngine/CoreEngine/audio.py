@@ -16,7 +16,6 @@
 # along with Verloren (GSHS_RPG).  If not, see <http://www.gnu.org/licenses/>. #
 #------------------------------------------------------------------------------#
 playAudio = True
-global playAudio
 try:
 	import simpleaudio as sa
 except:
