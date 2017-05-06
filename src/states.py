@@ -183,6 +183,7 @@ class Option:
 		self.position = position
 
 	def ClickAction(self):
+		'''Run when activated by player'''
 		pass
 
 
@@ -208,6 +209,7 @@ class AttackOption(Option):
 		self.state.Attack(
 			self.state.subject, self.attack
 		)
+		self.state.GoToHomeMenu()
 
 
 class DefendOption(Option):
@@ -221,6 +223,8 @@ class DefendOption(Option):
 
 class CombatState(State):
 
+	# Constant DEFENCE_COOLDOWN dictates how long
+	# the Defence command will be active
 	DEFENCE_COOLDOWN = .5
 
 	def __init__(self, controller):
@@ -324,15 +328,19 @@ class CombatState(State):
 				if self.activeOption.direction[1]:
 					self.activeOption = self.activeOption.direction[1]
 			if Input().command == 27:
-				if self.activeOption in self.submenus[0].options:
-					self.m_controller.ChangeState("explore")
-				else:
-					for submenu in self.submenus:
-						if submenu != self.submenus[0]:
-							submenu.enabled = False
-					self.activeOption = self.submenus[0].options[0]
+				self.GoToHomeMenu()
 			if Input().command == 10:
 				self.activeOption.ClickAction()
+	
+	def GoToHomeMenu(self):
+		'''Returns to the default menu'''
+		if self.activeOption in self.submenus[0].options:
+			self.m_controller.ChangeState("explore")
+		else:
+			for submenu in self.submenus:
+				if submenu != self.submenus[0]:
+					submenu.enabled = False
+			self.activeOption = self.submenus[0].options[0]
 
 	def Render(self):
 		self.renderer.m_renderObjects.append(
