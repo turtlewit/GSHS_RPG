@@ -10,3 +10,4 @@ cxfreeze
 *.mp3
 .build-tools.cson
 .vscode/
+.pylintrc
