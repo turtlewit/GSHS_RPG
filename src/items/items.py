@@ -28,8 +28,7 @@ class Slot(Enum):
 	ARM_R=5
 	LEGS=6
 	FEET=7
-	WEAPON_A=8
-	WEAPON_B=9
+	WEAPON=8
 
 
 class Stat:

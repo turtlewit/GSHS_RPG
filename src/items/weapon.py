@@ -16,7 +16,7 @@
 # along with Verloren (GSHS_RPG).  If not, see <http://www.gnu.org/licenses/>. #
 #------------------------------------------------------------------------------#
 
-from AdventureEngine.components.item import Item
+from AdventureEngine.components.item import Item, Stats, Slot
 from enum import Enum
 
 
@@ -30,8 +30,12 @@ class Weapon(Item):
 	def __init__(self):
 		Item.__init__(self)
 		self.m_type = "weapon"
+		self.m_equipable = True
+		self.m_slot = Slot.WEAPON
 
 		self.a_speed = 0
 		self.a_damage = 0
 		self.a_damageType = None
+		
+		self.m_equipRequirements = {}
 		

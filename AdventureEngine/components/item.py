@@ -30,6 +30,7 @@ class Item(GameComponent):
 		GameComponent.__init__(self)
 		self.m_name = name
 		self.m_type = "item"
+		self.m_equipable = False
 
 		self.m_groundDescription = None
 		self.m_inspectDescription = None

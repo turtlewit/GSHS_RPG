@@ -36,6 +36,8 @@ class Player(GameComponent):
 		self.a_stats = Stats.Generate()
 		self.a_health = 20
 		self.m_inventory = []
+		self.m_equipment = []
+		self.m_weapon = (None, None)
 
 		self.attacks = [
 			Attack( # Quick Attack
@@ -172,6 +174,7 @@ class Player(GameComponent):
 		)
 
 	def SendText(self):
+		'''Sends the current tile description and player.thingToPrint to the explore state'''
 		if self.currentTile:
 			if self.currentTile.m_description \
 				not in self.thingToPrint and self.printDescription == True:
@@ -284,9 +287,33 @@ class Player(GameComponent):
 					)
 					self.m_parent.m_transform = (0,0)
 					self.GetCurrentTile()
+				
+				elif Input().command.split()[0].lower() in ['equip'] and len(Input.command.split()) > 1:
+					found = False
+					for item in self.m_equipment:
+						if Input().command.split()[1].lower() == item.m_name.lower():
+							self.Equip(item)
+							found = True
+					if not found:
+						self.thingToPrint.append("%s isn't in your inventory!" % Input().command.split()[1].capitalize())
+							
+
 
 				elif Input().command.lower() in ['quit', 'exit']:
 					self.m_parent.m_engine.m_isRunning = False
 
 	def TakeDamage(self, damage, type):
 		self.a_health -= damage
+	
+	def Equip(self, item):
+		if item.m_equipable == True:
+			if item.m_type == "weapon":
+				if self.m_weapon[0]:
+					self.m_weapon = (self.m_weapon[0], item)
+				else:
+					self.m_weapon = (item, self.m_weapon[1])
+			else:
+				self.m_equipment[item.m_slot] = item
+				
+		else:
+			self.thingToPrint.append("%s cannot be equipped." % item.m_name.capitalize())
