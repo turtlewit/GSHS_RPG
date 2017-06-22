@@ -21,15 +21,21 @@ from GSHS_RPG import GSHS_RPG
 import os
 
 class Main:
-
+	'''The main class for AdventureEngine.'''
 	def __init__(self):
 		if not os.path.exists(os.path.join('data', 'logs')):
 			os.makedirs(os.path.join('data', 'logs'))
 
+
+	def Run(self):
+		'''Creates an instance of the game. Returns True to restart, False to terminate.'''
 		engine = Engine(GSHS_RPG())
-		engine.InitRenderer("Test")
-		engine.Start()
+		engine.InitRenderer("Verloren")
+		return engine.Start()
 
 
 if __name__ == "__main__":
-	Main()
+	while True:
+		main = Main()
+		if not main.Run():
+			break

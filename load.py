@@ -18,7 +18,8 @@
 
 """Load module
 
-This module declares the Map class. The purpose of this class is to load the .map files inside of data/maps.
+This module declares the Map class. The purpose of this class is to load the
+.map files inside of data/maps.
 """
 
 import AdventureEngine.components.world as world
@@ -132,7 +133,10 @@ class Map:
 						musicname = i['music']
 					except:
 						musicname = None
-					location = (int(i['location'].split(',')[0]), int(i['location'].split(',')[1]))
+					location = (
+						int(i['location'].split(',')[0]),
+						int(i['location'].split(',')[1])
+					)
 					#world.World(name,location,s_desc,l_desc)
 					World = GameObject()
 					World.m_transform = location
@@ -148,7 +152,10 @@ class Map:
 						name2 = ' '.join(i['name'].split())
 						parent = ' '.join(i['parent'].split())
 						desc = ' '.join(i['description'].split())
-						location = (int(i['location'].split(',')[0]), int(i['location'].split(',')[1]))
+						location = (
+							int(i['location'].split(',')[0]),
+							int(i['location'].split(',')[1])
+						)
 
 						try:
 							move_north_message = i['move_north_message']
@@ -167,8 +174,20 @@ class Map:
 						except:
 							move_west_message = None
 
-						direction_messages = [move_north_message, move_south_message, move_east_message, move_west_message]
-						tileComponent = world.Tile(move_north_message, move_south_message, move_east_message, move_west_message, name2, desc)
+						direction_messages = [
+							move_north_message,
+							move_south_message,
+							move_east_message,
+							move_west_message
+						]
+						tileComponent = world.Tile(
+							move_north_message,
+							move_south_message,
+							move_east_message,
+							move_west_message,
+							name2,
+							desc
+						)
 						Tile = GameObject()
 						Tile.m_transform = location
 						Tile.AddComponent(tileComponent)
@@ -177,10 +196,6 @@ class Map:
 								if component.m_name == parent:
 									aworld.AddChild(Tile)
 
-					# except:
-					# 	log_file.write("Could not load tile %s.\n" % (i['name']))
-			# except:
-			# 	log_file.write("Could not load entity.\n\n%s\n\n" % str(returnstuff))
 		map_file.close()
 		log_file.write('\n')
 		log_file.write("\ndone")
@@ -198,9 +213,11 @@ class Map:
 				map_file = open(os.path.join(map_file_name))
 				log_file.write("%s\n" % map_file_name)
 				possible_attributes = [
-						'space_description', 'landing_description', 'music',
-						'location', 'parent', 'description', 'move_east_message',
-						'move_west_message', 'move_north_message', 'move_south_message']
+					'space_description', 'landing_description', 'music',
+					'location', 'parent', 'description', 'move_east_message',
+					'move_west_message', 'move_north_message',
+					'move_south_message'
+				]
 
 				possible_types = ['WORLD', 'TILE']
 
@@ -235,7 +252,8 @@ class Map:
 							except:
 								pass
 
-							if line[0] in possible_attributes and len(line) == 2:
+							if line[0] in possible_attributes \
+								and len(line) == 2:
 								object_attributes[line[0]] = line[1]
 							else:
 								log_file.write("\nLINEDETAILS %s\n" % str(line))
@@ -276,7 +294,10 @@ class Map:
 								musicname = i['music']
 							except:
 								musicname = None
-							location = (int(i['location'].split(',')[0]), int(i['location'].split(',')[1]))
+							location = (
+								int(i['location'].split(',')[0]),
+								int(i['location'].split(',')[1])
+							)
 							#world.World(name,location,s_desc,l_desc)
 							World = GameObject()
 							World.m_transform = location
@@ -292,7 +313,10 @@ class Map:
 								name2 = ' '.join(i['name'].split())
 								parent = ' '.join(i['parent'].split())
 								desc = ' '.join(i['description'].split())
-								location = (int(i['location'].split(',')[0]), int(i['location'].split(',')[1]))
+								location = (
+									int(i['location'].split(',')[0]),
+									int(i['location'].split(',')[1])
+								)
 
 								try:
 									move_north_message = i['move_north_message']
@@ -311,8 +335,20 @@ class Map:
 								except:
 									move_west_message = None
 
-								direction_messages = [move_north_message, move_south_message, move_east_message, move_west_message]
-								tileComponent = world.Tile(move_north_message, move_south_message, move_east_message, move_west_message, name2, desc)
+								direction_messages = [
+									move_north_message,
+									move_south_message,
+									move_east_message,
+									move_west_message
+								]
+								tileComponent = world.Tile(
+									move_north_message,
+									move_south_message,
+									move_east_message,
+									move_west_message,
+									name2,
+									desc
+								)
 								Tile = GameObject()
 								Tile.m_transform = location
 								Tile.AddComponent(tileComponent)
@@ -322,14 +358,18 @@ class Map:
 											aworld.AddChild(Tile)
 
 							except:
-								log_file.write("Could not load tile %s.\n" % (i['name']))
-					# except:
-					# 	log_file.write("Could not load entity.\n\n%s\n\n" % str(returnstuff))
+								log_file.write(
+									"Could not load tile %s.\n" \
+									% (i['name'])
+								)
 				map_file.close()
 				log_file.write('\n')
 				#log_file.write(str(self.Worlds))
 		for aworld in self.Worlds:
 			log_file.write("%s\n" % aworld.m_components[0].m_name)
 			for atile in aworld.m_children:
-				log_file.write("%s %s \n" % (atile.m_components[0].m_name, str(atile.m_transform)))
+				log_file.write(
+					"%s %s \n"
+					% (atile.m_components[0].m_name, str(atile.m_transform))
+				)
 		log_file.write("\ndone")

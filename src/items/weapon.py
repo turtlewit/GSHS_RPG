@@ -16,33 +16,26 @@
 # along with Verloren (GSHS_RPG).  If not, see <http://www.gnu.org/licenses/>. #
 #------------------------------------------------------------------------------#
 
-from AdventureEngine.components.gamecomponent import GameComponent
+from AdventureEngine.components.item import Item, Stats, Slot
+from enum import Enum
 
-class World(GameComponent):
+
+class DamageType(Enum):
+	BALLISTIC = 0
+	ENERGY = 1
+	EXPLOSIVE = 2
+
+
+class Weapon(Item):
 	def __init__(self):
-		GameComponent.__init__(self)
-		self.m_type = "world"
-		self.m_spaceDescription = None
-		self.m_landingDescription = None
-		self.m_name = None
-		self.m_music = None
-		self.m_tileList = []
+		Item.__init__(self)
+		self.m_type = "weapon"
+		self.m_equipable = True
+		self.m_slot = Slot.WEAPON
 
-class Tile(GameComponent):
-	def __init__(
-		self,
-		move_north_message=None,
-		move_south_message=None,
-		move_east_message=None,
-		move_west_message=None,
-		m_name=None,
-		m_description=None
-		):
-		GameComponent.__init__(self)
-		self.m_type = "tile"
-		self.move_north_message = move_north_message
-		self.move_south_message = move_south_message
-		self.move_east_message = move_east_message
-		self.move_west_message = move_west_message
-		self.m_name = m_name
-		self.m_description = m_description
+		self.a_speed = 0
+		self.a_damage = 0
+		self.a_damageType = None
+		
+		self.m_equipRequirements = {}
+		
